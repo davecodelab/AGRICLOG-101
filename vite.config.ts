@@ -1,7 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import checker from "vite-plugin-checker";
+import {componentTagger} from "lovable-tagger";
+
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -11,11 +12,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    checker({
-      typescript:{
-        enabled:
-          process.env.NODE_ENV==='development', //Only enable in development
-        buildMode:true,
+    mode==='development' && componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {
