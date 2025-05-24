@@ -1,4 +1,3 @@
-
 import { Truck, Users, ShoppingCart, Calendar, TrendingUp, Package } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -82,6 +81,7 @@ const Services = () => {
                   src="\smilingfarmer.jpg" 
                   alt="Farmers with produce" 
                   className="w-full h-auto"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -96,6 +96,7 @@ const Services = () => {
                   src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1374&auto=format&fit=crop" 
                   alt="Restaurant chef with fresh produce" 
                   className="w-full h-auto"
+                  loading="lazy"
                 />
               </div>
               
