@@ -1,29 +1,30 @@
-
+import {Suspense,lazy} from "react"
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
-import LandingPage from "./pages/LandingPage";
-import AboutUs from "./pages/AboutUs";
-import Services from "./pages/Services";
-import Contact from "./pages/Contact";
-import LoginPage from "./pages/LoginPage";
-import FarmerSignup from "./pages/FarmerSignup";
-import BuyerSignup from "./pages/BuyerSignup";
-import FarmerDashboard from "./pages/FarmerDashboard";
-import BuyerDashboard from "./pages/BuyerDashboard";
-import ProductSearch from "./pages/ProductSearch";
-import ProductListing from "./pages/ProductListing";
-import OrderConfirmation from "./pages/OrderConfirmation";
-import OrderTracking from "./pages/OrderTracking";
-import DeliveryCompletion from "./pages/DeliveryCompletion";
-import NotFound from "./pages/NotFound";
+const  LandingPage =lazy(()=>import("./pages/LandingPage"));
+const AboutUs = lazy(()=>import("./pages/AboutUs");
+const Services = lazy(()=>import("./pages/Services");
+const Contact = lazy(()=>import("./pages/Contact");
+const LoginPage = lazy(()=> import("./pages/LoginPage");
+const FarmerSignup = lazy(()=>import("./pages/FarmerSignup");
+const BuyerSignup = lazy(()=>import( "./pages/BuyerSignup");
+const FarmerDashboard = lazy(()=>import( "./pages/FarmerDashboard");
+const BuyerDashboard = lazy(()=>import( "./pages/BuyerDashboard");
+const ProductSearch =lazy(()=>import(  "./pages/ProductSearch");
+const ProductListing = lazy(()=>import( "./pages/ProductListing");
+const OrderConfirmation = lazy(()=>import( "./pages/OrderConfirmation");
+const OrderTracking =lazy(()=>import(  "./pages/OrderTracking");
+const DeliveryCompletion = lazy(()=>import( "./pages/DeliveryCompletion");
+const  NotFound = lazy(()=>import( "./pages/NotFound");
 
 const queryClient = new QueryClient();
 
 const App = () => (
+ <Suspense fallback={"Loading..."}>
   <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme="light">
       <TooltipProvider>
@@ -51,6 +52,7 @@ const App = () => (
       </TooltipProvider>
     </ThemeProvider>
   </QueryClientProvider>
+   </Suspense>
 );
 
 export default App;
