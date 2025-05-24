@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-farm-green font-bold text-lg mb-3">Farm-to-Market</h3>
+            <h3 className="text-farm-green font-bold text-lg mb-3">AGRODEVS</h3>
             <p className="text-gray-600 text-sm">
               Connecting farmers directly to buyers in towns and cities. We're reducing waste and helping both sides get better value.
             </p>
