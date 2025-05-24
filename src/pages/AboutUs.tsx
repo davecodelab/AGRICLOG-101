@@ -37,6 +37,7 @@ const AboutUs = () => {
                   src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1470&auto=format&fit=crop" 
                   alt="Farmers in a field" 
                   className="w-full h-auto"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -108,6 +109,7 @@ const AboutUs = () => {
                     src="/choco.jpg" 
                     alt="Team member" 
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
                 <h3 className="text-xl font-semibold">Owusu Badu</h3>
@@ -120,6 +122,7 @@ const AboutUs = () => {
                     src="/dave.jpg" 
                     alt="Team member" 
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
                 <h3 className="text-xl font-semibold">Ayemang David</h3>
@@ -143,6 +146,7 @@ const AboutUs = () => {
                     src="/justice.jpg" 
                     alt="Team member" 
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
                 <h3 className="text-xl font-semibold">Justice Akoto</h3>
