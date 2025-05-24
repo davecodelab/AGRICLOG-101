@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -37,7 +36,7 @@ const featuredProducts: Product[] = [
     category: 'Fruits',
     price: 120,
     unit: 'kg',
-    farmer: 'Manpreet Kaur',
+    farmer: 'Julius Owusu',
     location: 'Doboro, Accra',
     imageUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=1374&auto=format&fit=crop',
     available: 80,
