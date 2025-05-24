@@ -75,7 +75,7 @@ const Contact = () => {
                       <h3 className="text-lg font-semibold mb-1">Office Location</h3>
                       <p className="text-gray-600">
                         AGRODEVS Headquarters<br />
-                        123 Agriculture Road<br />
+                        Splendor Hostel- KNUST<br />
                         Ayeduase-Newsite, Kumasi
                       </p>
                     </div>
@@ -90,8 +90,8 @@ const Contact = () => {
                     <div className="ml-4">
                       <h3 className="text-lg font-semibold mb-1">Phone Number</h3>
                       <p className="text-gray-600">
-                        General Inquiries: +91 9876543210<br />
-                        Support: +91 9876543211
+                        General Inquiries: +233 559441309<br />
+                        Support: +233 551982938
                       </p>
                     </div>
                   </div>
@@ -105,8 +105,8 @@ const Contact = () => {
                     <div className="ml-4">
                       <h3 className="text-lg font-semibold mb-1">Email Address</h3>
                       <p className="text-gray-600">
-                        info@farmtomarket.com<br />
-                        support@farmtomarket.com
+                        info@agrodevs.com<br />
+                        support@agrodevs.com
                       </p>
                     </div>
                   </div>
@@ -155,7 +155,7 @@ const Contact = () => {
                           type="email" 
                           value={formData.email} 
                           onChange={handleChange} 
-                          placeholder="your@email.com" 
+                          placeholder="youremail@email.com" 
                           required 
                         />
                       </div>
