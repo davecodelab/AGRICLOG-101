@@ -73,14 +73,16 @@ const LandingPage = () => {
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
-      <main className="flex-grow p-8">
+      <main className="flex-grow">
+        <div className="p-8">
         <Hero 
           title="Fresh Produce Direct From Farms"
           subtitle="We connect farmers directly to buyers in towns and cities. Say goodbye to middlemen and hello to fresher produce at better prices."
           image="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=1470&auto=format&fit=crop"
           cta={{ text: "Join as Farmer", link: "/signup/farmer" }}
-          secondaryCta={{ text: "Register as Buyer", link: "/signup/buyer" }}
+          secondaryCta={{ text: "Register as Buyer", link: "/signup/buyer" }} 
         />
+        </div>
         
         <FeatureSection 
           title="Why Choose Agrodevs?"
