@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import { ScrollAnimate } from "../components/ScrollAnimate";
 
 const Services = () => {
   return (
+    <ScrollAnimate delay="delay-100">
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
@@ -19,7 +21,9 @@ const Services = () => {
           </div>
         </div>
         
+       <ScrollAnimate delay="delay-150">
         <section className="py-16 bg-white">
+           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div>
@@ -87,7 +91,9 @@ const Services = () => {
             </div>
           </div>
         </section>
-        
+        </ScrollAnimate>
+
+        <ScrollAnimate delay="delay-200">
         <section className="py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -156,7 +162,9 @@ const Services = () => {
             </div>
           </div>
         </section>
-        
+        </ScrollAnimate>
+
+          <ScrollAnimate delay="delay-250">
         <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
@@ -209,7 +217,9 @@ const Services = () => {
             </div>
           </div>
         </section>
-        
+        </ScrollAnimate>
+
+         <ScrollAnimate delay='delay-300'>
         <section className="py-16 bg-farm-green">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl font-bold text-white mb-6">Ready to Transform Your Business?</h2>
@@ -230,10 +240,12 @@ const Services = () => {
             </div>
           </div>
         </section>
+        </ScrollAnimate>
       </main>
       
       <Footer />
     </div>
+    </ScrollAnimate>
   );
 };
 

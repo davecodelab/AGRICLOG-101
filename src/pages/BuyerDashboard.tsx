@@ -1,5 +1,6 @@
 import React from 'react';
 import ProductCard, { Product } from '@/components/ProductCard';
+import { ScrollAnimate } from "../components/ScrollAnimate";
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -12,7 +13,8 @@ import {
   User,
   LogOut,
   Heart,
-  Home
+  Home,
+  Scroll
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -25,7 +27,7 @@ const recentOrderData = [
     id: 'ORD-501',
     items: 'Tomatoes (10kg), Onions (5kg), Potatoes (15kg)',
     farm: 'Ramesh Patel Farms',
-    total: '₹1,400',
+    total: 'GHS 1,400',
     status: 'Delivered',
     date: '2025-05-18',
   },
@@ -33,7 +35,7 @@ const recentOrderData = [
     id: 'ORD-502',
     items: 'Apples (8kg), Carrots (3kg)',
     farm: 'Green Valley Organics',
-    total: '₹1,160',
+    total: 'GHS 2,160',
     status: 'En Route',
     date: '2025-05-20',
   },
@@ -41,7 +43,7 @@ const recentOrderData = [
     id: 'ORD-503',
     items: 'Rice (25kg), Wheat (20kg)',
     farm: 'Sharma Grain Farms',
-    total: '₹2,800',
+    total: 'GHS 2,800',
     status: 'Processing',
     date: '2025-05-21',
   },
@@ -54,8 +56,8 @@ const recommendedProducts: Product[] = [
     category: 'Vegetables',
     price: 40,
     unit: 'kg',
-    farmer: 'Ramesh Patel',
-    location: 'Nashik, Maharashtra',
+    farmer: 'Kwamina Ebo',
+    location: 'Wiamoasi, Kumasi',
     imageUrl: 'https://images.unsplash.com/photo-1592924357228-9b03954a1d30?q=80&w=1374&auto=format&fit=crop',
     available: 100,
   },
@@ -65,8 +67,8 @@ const recommendedProducts: Product[] = [
     category: 'Grains',
     price: 60,
     unit: 'kg',
-    farmer: 'Anjali Singh',
-    location: 'Burdwan, West Bengal',
+    farmer: 'Agyeiwaa Adomako',
+    location: 'Oyibi, Accra',
     imageUrl: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?q=80&w=1470&auto=format&fit=crop',
     available: 500,
   },
@@ -76,8 +78,8 @@ const recommendedProducts: Product[] = [
     category: 'Fruits',
     price: 120,
     unit: 'kg',
-    farmer: 'Manpreet Kaur',
-    location: 'Shimla, Himachal Pradesh',
+    farmer: 'Julius Owusu',
+    location: 'Doboro, Accra',
     imageUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=1374&auto=format&fit=crop',
     available: 80,
   }
@@ -87,7 +89,9 @@ const BuyerDashboard = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('home');
 
+
   return (
+    <ScrollAnimate delay="delay-150">
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
       <div className="hidden md:flex w-64 flex-col bg-white border-r">
@@ -178,7 +182,7 @@ const BuyerDashboard = () => {
         <div className="p-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">Welcome, Namrata's Restaurant!</h1>
+              <h1 className="text-2xl font-bold text-gray-800">Welcome, Hot & Crispy Restaurant!</h1>
               <p className="text-gray-600">Find the freshest produce for your business</p>
             </div>
             
@@ -232,7 +236,7 @@ const BuyerDashboard = () => {
                         <p className="text-sm text-gray-500 mb-1">Cart Items</p>
                         <h3 className="text-2xl font-bold">5</h3>
                         <p className="text-xs text-gray-500 flex items-center mt-1">
-                          ₹3,200 total
+                          GHS 3,200 total
                         </p>
                       </div>
                       <div className="bg-green-100 p-3 rounded-full">
@@ -249,7 +253,7 @@ const BuyerDashboard = () => {
                         <p className="text-sm text-gray-500 mb-1">Upcoming Deliveries</p>
                         <h3 className="text-2xl font-bold">3</h3>
                         <p className="text-xs text-gray-500 flex items-center mt-1">
-                          Next: May 22, 2025
+                          Next: June 22, 2025
                         </p>
                       </div>
                       <div className="bg-orange-100 p-3 rounded-full">
@@ -362,6 +366,7 @@ const BuyerDashboard = () => {
         </div>
       </div>
     </div>
+    </ScrollAnimate>
   );
 };
 

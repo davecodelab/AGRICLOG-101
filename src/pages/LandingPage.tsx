@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import { ScrollAnimate } from "../components/ScrollAnimate";
 import Hero from '@/components/Hero';
 import FeatureSection from '@/components/FeatureSection';
 import { Button } from '@/components/ui/button';
@@ -68,6 +69,7 @@ const features = [
 
 const LandingPage = () => {
   return (
+    <ScrollAnimate>
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
@@ -130,6 +132,7 @@ const LandingPage = () => {
       
       <Footer />
     </div>
+    </ScrollAnimate>
   );
 };
 

@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
+import { ScrollAnimate } from "../components/ScrollAnimate";
 import { ArrowRight, CreditCard, MapPin, Truck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -46,6 +47,7 @@ const OrderConfirmation = () => {
   };
 
   return (
+    <ScrollAnimate>
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
@@ -195,6 +197,7 @@ const OrderConfirmation = () => {
       
       <Footer />
     </div>
+    </ScrollAnimate>
   );
 };
 

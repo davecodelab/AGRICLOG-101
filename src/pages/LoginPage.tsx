@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import { ScrollAnimate } from "../components/ScrollAnimate";
 
 const LoginPage = () => {
   const { toast } = useToast();
@@ -36,6 +37,7 @@ const LoginPage = () => {
   };
 
   return (
+      <ScrollAnimate>
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
@@ -156,6 +158,7 @@ const LoginPage = () => {
       
       <Footer />
     </div>
+    </ScrollAnimate>
   );
 };
 

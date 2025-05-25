@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Product } from '@/components/ProductCard';
 import { ArrowLeft, MinusCircle, PlusCircle, Truck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ScrollAnimate } from "../components/ScrollAnimate";
 
 const ProductListing = () => {
   const { id } = useParams<{ id: string }>();

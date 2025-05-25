@@ -1,26 +1,33 @@
 
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
-
+import { ScrollAnimate } from "../components/ScrollAnimate";// Adjust the path as needed
+ // Adjust the path as needed
 const AboutUs = () => {
+  // This component renders the About Us page with a mission statement, team introduction, and company story.
   return (
+      <ScrollAnimate delay="delay-100">
     <div className="min-h-screen flex flex-col">
       <NavBar />
-      
       <main className="flex-grow">
         <div className="bg-farm-green py-16">
+          
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl font-bold text-white mb-4">About Farm-to-Market</h1>
+           
+            <h1 className="text-4xl font-bold text-white mb-4">About AGRODEVS</h1>
             <p className="text-green-100 max-w-3xl mx-auto text-lg">
               We're on a mission to revolutionize the agricultural supply chain and create a more sustainable future for farming communities.
-            </p>
+            </p> 
           </div>
         </div>
+       
+
         
         <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
+                <ScrollAnimate delay="delay-100">
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
                 <p className="text-gray-600 mb-4">
                   Agrodevs was born from a simple observation: farmers were losing a significant portion of their harvest because they couldn't find buyers quickly enough, while food vendors in cities struggled to source consistent, quality produce.
@@ -31,7 +38,9 @@ const AboutUs = () => {
                 <p className="text-gray-600">
                   What started as a small initiative in 2023 has now grown into a thriving marketplace that helps farmers increase their income while providing businesses with better access to fresh, local produce.
                 </p>
+                  </ScrollAnimate>
               </div>
+              <ScrollAnimate delay="delay-200">
               <div className="rounded-lg overflow-hidden shadow-lg">
                 <img 
                   src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1470&auto=format&fit=crop" 
@@ -40,6 +49,7 @@ const AboutUs = () => {
                   loading="lazy"
                 />
               </div>
+              </ScrollAnimate>
             </div>
           </div>
         </section>
@@ -101,8 +111,9 @@ const AboutUs = () => {
                 A passionate group of individuals committed to transforming agriculture through technology.
               </p>
             </div>
-            
+            <ScrollAnimate delay="delay-200">
             <div className="grid md:grid-cols-4 gap-4">
+
               <div className="text-center">
                 <div className="w-40 h-40 rounded-full overflow-hidden mx-auto mb-4">
                   <img 
@@ -112,8 +123,10 @@ const AboutUs = () => {
                     loading="lazy"
                   />
                 </div>
+                <ScrollAnimate delay="delay-300">
                 <h3 className="text-xl font-semibold">Owusu Badu</h3>
                 <p className="text-gray-600">CEO & Co-founder</p>
+                </ScrollAnimate>
               </div>
               
               <div className="text-center">
@@ -125,8 +138,10 @@ const AboutUs = () => {
                     loading="lazy"
                   />
                 </div>
+                <ScrollAnimate delay="delay-300">
                 <h3 className="text-xl font-semibold">Agyemang David</h3>
                 <p className="text-gray-600">COO & Co-founder</p>
+                </ScrollAnimate>
               </div>
               
               <div className="text-center">
@@ -137,8 +152,10 @@ const AboutUs = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
+               <ScrollAnimate delay="delay-300">
                 <h3 className="text-xl font-semibold">Adom Fosu</h3>
                 <p className="text-gray-600">CTO</p>
+                 </ScrollAnimate>
               </div>
                <div className="text-center">
                 <div className="w-40 h-40 rounded-full overflow-hidden mx-auto mb-4">
@@ -149,16 +166,21 @@ const AboutUs = () => {
                     loading="lazy"
                   />
                 </div>
+                <ScrollAnimate delay="delay-300">
                 <h3 className="text-xl font-semibold">Justice Akoto</h3>
                 <p className="text-gray-600">Sales and Marketing</p>
+                </ScrollAnimate>
               </div>
+              
             </div>
+            </ScrollAnimate>
           </div>
         </section>
       </main>
       
       <Footer />
     </div>
+  </ScrollAnimate>
   );
 };
 

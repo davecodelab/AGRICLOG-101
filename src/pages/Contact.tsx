@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import { ScrollAnimate } from "../components/ScrollAnimate";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -46,22 +47,30 @@ const Contact = () => {
   };
 
   return (
+         <ScrollAnimate>
     <div className="min-h-screen flex flex-col">
       <NavBar />
-      
+     
       <main className="flex-grow">
+        
         <div className="bg-farm-green py-16">
+          
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+             <ScrollAnimate>
             <h1 className="text-4xl font-bold text-white mb-4">Contact Us</h1>
             <p className="text-green-100 max-w-2xl mx-auto text-lg">
               Have questions or need assistance? We're here to help! Reach out to our team using the form below.
             </p>
+            </ScrollAnimate>
           </div>
         </div>
+     
+
         
         <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-3 gap-12">
+            <ScrollAnimate delay="delay-200">
               <div className="md:col-span-1">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Get In Touch</h2>
                 <div className="space-y-6">
@@ -71,6 +80,8 @@ const Contact = () => {
                         <MapPin className="w-5 h-5" />
                       </div>
                     </div>
+                   
+                   
                     <div className="ml-4">
                       <h3 className="text-lg font-semibold mb-1">Office Location</h3>
                       <p className="text-gray-600">
@@ -96,6 +107,7 @@ const Contact = () => {
                     </div>
                   </div>
                   
+      
                   <div className="flex items-start">
                     <div className="flex-shrink-0">
                       <div className="w-10 h-10 flex items-center justify-center rounded-full bg-green-100 text-farm-green">
@@ -128,8 +140,11 @@ const Contact = () => {
                   </div>
                 </div>
               </div>
+              </ScrollAnimate>
+             
               
               <div className="md:col-span-2">
+                <ScrollAnimate delay="delay-400">
                 <div className="bg-gray-50 p-8 rounded-lg shadow-sm">
                   <h2 className="text-2xl font-bold text-gray-900 mb-6">Send a Message</h2>
                   
@@ -169,7 +184,8 @@ const Contact = () => {
                           name="phone" 
                           value={formData.phone} 
                           onChange={handleChange} 
-                          placeholder="+91 9876543210" 
+                          placeholder="+233 XXX XXX XXX" 
+                          required
                         />
                       </div>
                       
@@ -194,7 +210,7 @@ const Contact = () => {
                         value={formData.message} 
                         onChange={handleChange} 
                         placeholder="Please provide details about your inquiry..." 
-                        rows={5} 
+                        rows={6} 
                         required 
                       />
                     </div>
@@ -208,11 +224,14 @@ const Contact = () => {
                     </Button>
                   </form>
                 </div>
+                </ScrollAnimate>
               </div>
             </div>
           </div>
         </section>
         
+
+        <ScrollAnimate delay="delay-300">
         <section className="py-12 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Find Us</h2>
@@ -229,10 +248,13 @@ const Contact = () => {
             </div>
           </div>
         </section>
+        </ScrollAnimate>
+
       </main>
       
       <Footer />
     </div>
+    </ScrollAnimate>
   );
 };
 

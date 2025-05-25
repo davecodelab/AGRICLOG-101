@@ -13,6 +13,11 @@ const NavBar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center">
+              <img 
+                className="h-20 w-20 mr-2" 
+                src="../logo.png" 
+                alt="AgroDevs Logo"
+              />
               <span className="text-farm-green font-bold text-xl">AGRODEVS</span>
             </Link>
           </div>

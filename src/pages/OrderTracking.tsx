@@ -13,6 +13,7 @@ import {
   Truck 
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ScrollAnimate } from '@/components/ScrollAnimate';
 
 const OrderTracking = () => {
   // Mock order data - in a real app, this would come from API
@@ -54,6 +55,7 @@ const OrderTracking = () => {
   const activeStep = deliverySteps.findIndex(step => step.id === order.status);
 
   return (
+    <ScrollAnimate>
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
@@ -203,6 +205,7 @@ const OrderTracking = () => {
       
       <Footer />
     </div>
+    </ScrollAnimate>
   );
 };
 

@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import { ScrollAnimate } from '@/components/ScrollAnimate';
 
 const FarmerSignup = () => {
   const { toast } = useToast();
@@ -54,6 +55,7 @@ const FarmerSignup = () => {
   };
 
   return (
+    <ScrollAnimate>
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
@@ -166,6 +168,7 @@ const FarmerSignup = () => {
       
       <Footer />
     </div>
+    </ScrollAnimate>
   );
 };
 

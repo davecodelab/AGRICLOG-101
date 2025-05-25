@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
+import { ScrollAnimate } from "../components/ScrollAnimate";
 
 const DeliveryCompletion = () => {
   const { toast } = useToast();
@@ -53,6 +54,7 @@ const DeliveryCompletion = () => {
   };
 
   return (
+    <ScrollAnimate>
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
@@ -168,6 +170,7 @@ const DeliveryCompletion = () => {
       
       <Footer />
     </div>
+    </ScrollAnimate>
   );
 };
 
