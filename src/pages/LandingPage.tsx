@@ -73,7 +73,7 @@ const LandingPage = () => {
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
-      <main className="flex-grow">
+      <main className="flex-grow p-8">
         <Hero 
           title="Fresh Produce Direct From Farms"
           subtitle="We connect farmers directly to buyers in towns and cities. Say goodbye to middlemen and hello to fresher produce at better prices."
