@@ -23,7 +23,7 @@ const AboutUs = () => {
               <div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
                 <p className="text-gray-600 mb-4">
-                  Farm-to-Market was born from a simple observation: farmers were losing a significant portion of their harvest because they couldn't find buyers quickly enough, while food vendors in cities struggled to source consistent, quality produce.
+                  Agrodevs was born from a simple observation: farmers were losing a significant portion of their harvest because they couldn't find buyers quickly enough, while food vendors in cities struggled to source consistent, quality produce.
                 </p>
                 <p className="text-gray-600 mb-4">
                   We saw this disconnect as an opportunity to create a platform that would connect these two groups directly, cutting out middlemen and creating value for both sides of the market.
@@ -125,7 +125,7 @@ const AboutUs = () => {
                     loading="lazy"
                   />
                 </div>
-                <h3 className="text-xl font-semibold">Ayemang David</h3>
+                <h3 className="text-xl font-semibold">Agyemang David</h3>
                 <p className="text-gray-600">COO & Co-founder</p>
               </div>
               
