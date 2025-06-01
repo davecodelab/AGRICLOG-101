@@ -81,3 +81,5 @@ const Hero = ({ title, subtitle, image, cta, secondaryCta }: HeroProps) => {
 };
 
 export default Hero;
+
+

@@ -1,6 +1,8 @@
 
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/contexts/CartContext';
+import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 
 export interface Product {
@@ -18,8 +20,16 @@ export interface Product {
 interface ProductCardProps {
   product: Product;
 }
-
 const ProductCard = ({ product }: ProductCardProps) => {
+const { addToCart } = useCart();
+  const { toast } = useToast();
+  const handleAddToCart = () => {
+    addToCart(product, 1);
+    toast({
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart`,
+    });
+  };
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="h-48 bg-gray-200 relative overflow-hidden">
@@ -52,7 +62,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             View Details
           </Button>
         </Link>
-        <Button size="sm" className="bg-farm-green hover:bg-farm-lightGreen text-white">
+        <Button onClick={handleAddToCart} size="sm" className="bg-farm-green hover:bg-farm-lightGreen text-white">
           Add to Cart
         </Button>
       </CardFooter>

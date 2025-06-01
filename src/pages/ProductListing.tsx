@@ -1,4 +1,3 @@
-
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import NavBar from '@/components/NavBar';
@@ -8,13 +7,15 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Product } from '@/components/ProductCard';
 import { ArrowLeft, MinusCircle, PlusCircle, Truck } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';  
+import { useCart } from '@/contexts/CartContext';
 import { ScrollAnimate } from "../components/ScrollAnimate";
 
 const ProductListing = () => {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
   
   // Mock product data - in a real app, this would be fetched from an API
   const product: Product = {
@@ -48,7 +49,8 @@ const ProductListing = () => {
     }
   };
 
-  const addToCart = () => {
+    const handleAddToCart = () => {
+    addToCart(product, quantity);
     toast({
       title: "Added to cart",
       description: `${quantity} ${product.unit} of ${product.name} added to your cart`,
@@ -57,8 +59,10 @@ const ProductListing = () => {
 
   const buyNow = () => {
     // In a real app, this would add the item to the cart and redirect to checkout
+     addToCart(product, quantity);
     window.location.href = '/order/confirmation';
   };
+  
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -142,7 +146,7 @@ const ProductListing = () => {
                   <Button
                     variant="outline"
                     className="flex-1 border-farm-green text-farm-green hover:bg-green-50"
-                    onClick={addToCart}
+                    onClick={handleAddToCart}
                   >
                     Add to Cart
                   </Button>

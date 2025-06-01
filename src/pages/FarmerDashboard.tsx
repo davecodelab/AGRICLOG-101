@@ -5,9 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
+import AddProductForm from '@/components/AddProductForm';
 import { ScrollAnimate } from "../components/ScrollAnimate";
 
-const productData = [{
+const initialProductData = [{
   id: '1',
   name: 'Fresh Tomatoes',
   category: 'Vegetables',
@@ -34,7 +35,7 @@ const productData = [{
 }];
 const orderData = [{
   id: 'ORD-001',
-  buyer: 'Namrata Restaurant',
+  buyer: 'Palms Restaurant',
   items: 'Tomatoes, Onions',
   total: 'GHS 2,400',
   status: 'En Route',
@@ -59,11 +60,17 @@ const FarmerDashboard = () => {
     toast
   } = useToast();
   const [activeTab, setActiveTab] = useState('products');
+  const [showAddProductForm, setShowAddProductForm] = useState(false);
+  const [productData, setProductData] = useState(initialProductData);
+  const handleAddProduct = (newProduct: any) => {
+    setProductData(prev => [...prev, newProduct]);
+  };
+
   return <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
       <div className="hidden md:flex w-64 flex-col bg-white border-r">
         <div className="p-4 border-b">
-          <h2 className="text-farm-green text-lg font-bold">Farm-to-Market</h2>
+          <h2 className="text-farm-green text-lg font-bold">AGRODEVS</h2>
           <p className="text-sm text-gray-500">Farmer Dashboard</p>
         </div>
         
@@ -150,7 +157,10 @@ const FarmerDashboard = () => {
                 <span>Search</span>
               </Button>
               
-              <Button className="bg-farm-green hover:bg-farm-lightGreen text-white flex items-center space-x-2">
+                 <Button 
+                className="bg-farm-green hover:bg-farm-lightGreen text-white flex items-center space-x-2"
+                onClick={() => setShowAddProductForm(true)}
+              >
                 <PlusCircle className="h-4 w-4" />
                 <span>Add Product</span>
               </Button>
@@ -223,7 +233,11 @@ const FarmerDashboard = () => {
               <TabsContent value="products">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-semibold">My Products</h2>
-                  <Button className="bg-farm-green hover:bg-farm-lightGreen">Add New Product</Button>
+                     <Button className="bg-farm-green hover:bg-farm-lightGreen"
+                    onClick={() => setShowAddProductForm(true)}
+                  >
+                    Add New Product
+                 Add New Product</Button>
                 </div>
                 
                 <div className="overflow-x-auto">
@@ -239,7 +253,8 @@ const FarmerDashboard = () => {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {productData.map(product => <tr key={product.id}>
+                        {productData.map(product => (
+                        <tr key={product.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">{product.name}</div>
                           </td>
@@ -260,7 +275,8 @@ const FarmerDashboard = () => {
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <Button variant="ghost" size="sm" className="text-farm-green hover:text-farm-lightGreen">Edit</Button>
                           </td>
-                        </tr>)}
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
@@ -329,6 +345,14 @@ const FarmerDashboard = () => {
           </div>
         </div>
       </div>
+    {/* Add Product Form Modal */}
+      {showAddProductForm && (
+        <AddProductForm
+          onClose={() => setShowAddProductForm(false)}
+          onSubmit={handleAddProduct}
+        />
+      )}
     </div>;
 };
+
 export default FarmerDashboard;

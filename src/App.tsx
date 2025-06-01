@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ScrollAnimate } from "./components/ScrollAnimate";
+import { CartProvider } from "@/contexts/CartContext";
 const  LandingPage =lazy(()=>import("./pages/LandingPage"));
 const AboutUs = lazy(()=>import("./pages/AboutUs"));
 const Services = lazy(()=>import("./pages/Services"));
@@ -22,12 +23,14 @@ const OrderTracking =lazy(()=>import(  "./pages/OrderTracking"));
 const DeliveryCompletion = lazy(()=>import( "./pages/DeliveryCompletion"));
 const  NotFound = lazy(()=>import( "./pages/NotFound"));
 
+
 const queryClient = new QueryClient();
 
 const App = () => (
  <Suspense fallback={"Loading..."}>
   <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme="light">
+      <CartProvider>
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -53,9 +56,11 @@ const App = () => (
         </ScrollAnimate>
         </BrowserRouter>
       </TooltipProvider>
+      </CartProvider>
     </ThemeProvider>
   </QueryClientProvider>
    </Suspense>
 );
+  
 
 export default App;
