@@ -9,7 +9,7 @@ const Footer = () => {
           <div>
             <h3 className="text-farm-green font-bold text-lg mb-3">AGRODEVS</h3>
             <p className="text-gray-600 text-sm">
-              Connecting farmers directly to buyers in towns and cities. We're reducing waste and helping both sides get better value.
+              Connecting farmers directly to cONSUMERS in towns and cities. We're reducing waste and helping both sides get better value.
             </p>
           </div>
           <div>
@@ -36,7 +36,7 @@ const Footer = () => {
                 <Link to="/signup/farmer" className="text-gray-600 hover:text-farm-green text-sm">Join as Farmer</Link>
               </li>
               <li>
-                <Link to="/signup/buyer" className="text-gray-600 hover:text-farm-green text-sm">Register as Buyer</Link>
+                <Link to="/signup/buyer" className="text-gray-600 hover:text-farm-green text-sm">Register as Consumer</Link>
               </li>
               <li>
                 <Link to="/login" className="text-gray-600 hover:text-farm-green text-sm">Sign In</Link>
@@ -45,7 +45,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="border-t border-gray-200 mt-8 pt-6">
-          <p className="text-sm text-gray-500 text-center">© 2025 Farm-to-Market. All rights reserved.</p>
+          <p className="text-sm text-gray-500 text-center">© 2025 AGRODEVS. All rights reserved.</p>
         </div>
       </div>
     </footer>

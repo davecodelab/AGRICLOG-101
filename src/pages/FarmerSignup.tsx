@@ -59,10 +59,19 @@ const FarmerSignup = () => {
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
-      <main className="flex-grow bg-gray-50 py-12">
-        <div className="max-w-md mx-auto px-4">
-          <Card className="shadow-lg">
-            <CardHeader>
+      <main
+        className="flex-grow bg-gray-50 py-12 relative"
+        style={{
+          backgroundImage: 'url(/farmland.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div className="max-w-md mx-auto px-4 relative z-10">
+          <Card className="shadow-lg backdrop-blur-md bg-white/10 border border-white/20">
+        <CardHeader>
               <CardTitle className="text-2xl text-center text-farm-green">Sign Up as a Farmer</CardTitle>
             </CardHeader>
             
@@ -70,7 +79,7 @@ const FarmerSignup = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Full Name</Label>
+                    <Label htmlFor="name" className='text-white'>Full Name</Label>
                     <Input
                       id="name"
                       name="name"
@@ -82,7 +91,7 @@ const FarmerSignup = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number</Label>
+                    <Label htmlFor="phone" className='text-white'>Phone Number</Label>
                     <Input
                       id="phone"
                       name="phone"
@@ -90,11 +99,12 @@ const FarmerSignup = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       required
+                     // className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email Address</Label>
+                    <Label htmlFor="email" className='text-white'>Email Address</Label>
                     <Input
                       id="email"
                       name="email"
@@ -107,7 +117,7 @@ const FarmerSignup = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="location">Farm Location</Label>
+                    <Label htmlFor="location" className='text-white'>Farm Location</Label>
                     <Input
                       id="location"
                       name="location"
@@ -119,7 +129,7 @@ const FarmerSignup = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password" className='text-white'>Password</Label>
                     <Input
                       id="password"
                       name="password"
@@ -132,7 +142,7 @@ const FarmerSignup = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <Label htmlFor="confirmPassword" className='text-white'>Confirm Password</Label>
                     <Input
                       id="confirmPassword"
                       name="confirmPassword"
@@ -158,8 +168,8 @@ const FarmerSignup = () => {
             </CardContent>
             
             <CardFooter>
-              <p className="text-sm text-center w-full text-gray-600">
-                Already have an account? <Link to="/login" className="text-farm-green hover:underline">Sign in</Link>
+              <p className="text-sm text-center w-full text-white/80">
+                Already have an account? <Link to="/login" className="text-white hover:underline">Sign in</Link>
               </p>
             </CardFooter>
           </Card>

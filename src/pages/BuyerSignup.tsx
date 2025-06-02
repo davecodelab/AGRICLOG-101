@@ -61,18 +61,23 @@ const BuyerSignup = () => {
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
-      <main className="flex-grow bg-gray-50 py-12">
+      <main className="flex-grow bg-gray-50 py-12"
+        style={{
+          backgroundImage: 'url(/consumer.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}>
         <div className="max-w-md mx-auto px-4">
-          <Card className="shadow-lg">
+          <Card className="shadow-lg backdrop-blur-md bg-white/10 border border-white/20">
             <CardHeader>
-              <CardTitle className="text-2xl text-center text-farm-green">Sign Up as a Buyer</CardTitle>
+              <CardTitle className="text-2xl text-center text-farm-green">Sign Up as a Consumer</CardTitle>
             </CardHeader>
             
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Full Name</Label>
+                    <Label htmlFor="name" className='text-white'>Full Name</Label>
                     <Input
                       id="name"
                       name="name"
@@ -80,11 +85,12 @@ const BuyerSignup = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
+                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number</Label>
+                    <Label htmlFor="phone" className='text-white'>Phone Number</Label>
                     <Input
                       id="phone"
                       name="phone"
@@ -92,11 +98,12 @@ const BuyerSignup = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       required
+                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email Address</Label>
+                    <Label htmlFor="email" className='text-white'>Email Address</Label>
                     <Input
                       id="email"
                       name="email"
@@ -105,11 +112,12 @@ const BuyerSignup = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
+                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="businessName">Business Name</Label>
+                    <Label htmlFor="businessName" className='text-white'>Business Name</Label>
                     <Input
                       id="businessName"
                       name="businessName"
@@ -117,11 +125,12 @@ const BuyerSignup = () => {
                       value={formData.businessName}
                       onChange={handleChange}
                       required
+                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="businessType">Business Type</Label>
+                    <Label htmlFor="businessType" className='text-white'>Business Type</Label>
                     <Input
                       id="businessType"
                       name="businessType"
@@ -129,11 +138,12 @@ const BuyerSignup = () => {
                       value={formData.businessType}
                       onChange={handleChange}
                       required
+                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="address">Delivery Address</Label>
+                    <Label htmlFor="address"className='text-white'>Delivery Address</Label>
                     <Input
                       id="address"
                       name="address"
@@ -141,11 +151,12 @@ const BuyerSignup = () => {
                       value={formData.address}
                       onChange={handleChange}
                       required
+                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password"className='text-white'>Password</Label>
                     <Input
                       id="password"
                       name="password"
@@ -154,11 +165,12 @@ const BuyerSignup = () => {
                       value={formData.password}
                       onChange={handleChange}
                       required
+                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <Label htmlFor="confirmPassword"className='text-white'>Confirm Password</Label>
                     <Input
                       id="confirmPassword"
                       name="confirmPassword"
@@ -167,6 +179,7 @@ const BuyerSignup = () => {
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       required
+                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
                     />
                   </div>
                 </div>
@@ -177,15 +190,15 @@ const BuyerSignup = () => {
                     className="w-full bg-farm-green hover:bg-farm-lightGreen"
                     disabled={isLoading}
                   >
-                    {isLoading ? "Creating Account..." : "Create Buyer Account"}
+                    {isLoading ? "Creating Account..." : "Create Consumer Account"}
                   </Button>
                 </div>
               </form>
             </CardContent>
             
             <CardFooter>
-              <p className="text-sm text-center w-full text-gray-600">
-                Already have an account? <Link to="/login" className="text-farm-green hover:underline">Sign in</Link>
+              <p className="text-sm text-white/80" >
+                Already have an account? <Link to="/login" className="text-xl text-farm-green hover:underline"> Sign in</Link>
               </p>
             </CardFooter>
           </Card>
