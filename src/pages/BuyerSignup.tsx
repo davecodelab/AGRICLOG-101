@@ -198,7 +198,7 @@ const BuyerSignup = () => {
             
             <CardFooter>
               <p className="text-sm text-white/80" >
-                Already have an account? <Link to="/login" className="text-xl text-farm-green hover:underline"> Sign in</Link>
+                Already have an account? <Link to="/login" className=" text-white hover:underline"> Sign in</Link>
               </p>
             </CardFooter>
           </Card>
