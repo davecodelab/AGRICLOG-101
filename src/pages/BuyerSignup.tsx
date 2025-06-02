@@ -112,7 +112,7 @@ const BuyerSignup = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      c
+                      
                     />
                   </div>
                   
