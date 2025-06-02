@@ -85,7 +85,7 @@ const BuyerSignup = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
+                      
                     />
                   </div>
                   
@@ -98,7 +98,7 @@ const BuyerSignup = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       required
-                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
+                      
                     />
                   </div>
                   
@@ -112,7 +112,7 @@ const BuyerSignup = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
+                      c
                     />
                   </div>
                   
@@ -125,7 +125,7 @@ const BuyerSignup = () => {
                       value={formData.businessName}
                       onChange={handleChange}
                       required
-                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
+                      
                     />
                   </div>
                   
@@ -138,7 +138,7 @@ const BuyerSignup = () => {
                       value={formData.businessType}
                       onChange={handleChange}
                       required
-                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
+                      
                     />
                   </div>
                   
@@ -151,7 +151,7 @@ const BuyerSignup = () => {
                       value={formData.address}
                       onChange={handleChange}
                       required
-                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
+                      
                     />
                   </div>
                   
@@ -165,7 +165,7 @@ const BuyerSignup = () => {
                       value={formData.password}
                       onChange={handleChange}
                       required
-                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
+                      
                     />
                   </div>
                   
@@ -179,7 +179,7 @@ const BuyerSignup = () => {
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       required
-                      className="bg-white/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm"
+                      
                     />
                   </div>
                 </div>
