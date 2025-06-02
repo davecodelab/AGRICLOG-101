@@ -43,7 +43,7 @@ const AboutUs = () => {
               <ScrollAnimate delay="delay-200">
               <div className="rounded-lg overflow-hidden shadow-lg">
                 <img 
-                  src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1470&auto=format&fit=crop" 
+                  src="/login.jpg" 
                   alt="Farmers in a field" 
                   className="w-full h-auto"
                   loading="lazy"
