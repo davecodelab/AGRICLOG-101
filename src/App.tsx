@@ -1,5 +1,6 @@
 import {Suspense,lazy} from "react"// Adjust the path as needed
 import { Toaster } from "@/components/ui/toaster";
+import Loader from "./components/Loader";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -27,7 +28,7 @@ const  NotFound = lazy(()=>import( "./pages/NotFound"));
 const queryClient = new QueryClient();
 
 const App = () => (
- <Suspense fallback={"Loading..."}>
+ <Suspense fallback={<Loader />}>
   <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme="light">
       <CartProvider>

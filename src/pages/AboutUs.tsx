@@ -160,14 +160,14 @@ const AboutUs = () => {
                <div className="text-center">
                 <div className="w-40 h-40 rounded-full overflow-hidden mx-auto mb-4">
                   <img 
-                    src="/justice.jpg" 
+                    src="/teamate.jpg" 
                     alt="Team member" 
                     className="w-full h-full object-cover"
                     loading="lazy"
                   />
                 </div>
                 <ScrollAnimate delay="delay-300">
-                <h3 className="text-xl font-semibold">Justice Akoto</h3>
+                <h3 className="text-xl font-semibold">Glover Kafui Justice</h3>
                 <p className="text-gray-600">Sales and Marketing</p>
                 </ScrollAnimate>
               </div>
