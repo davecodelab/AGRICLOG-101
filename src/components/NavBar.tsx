@@ -1,24 +1,26 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/contexts/CartContext';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { getTotalItems } = useCart();
+  const cartItemCount = getTotalItems();
 
   return (
-    <nav className= "sticky top-0 z-50 bg-white shadow-sm">
+    <nav className="bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center">
-              <img 
-                className="h-20 w-20 mr-2" 
-                src="../logo.png" 
-                alt="AgroDevs Logo"
+              <img
+                className="h-20 w-20 mr-2"
+                src="/logo.png" // Replace with your logo path
+                alt="Farm-to-Market Logo"
               />
-              <span className="text-farm-green font-bold text-xl">AGRODEVS</span>
+              <span className="text-farm-green font-bold text-xl">AgroDevs</span>
             </Link>
           </div>
           
@@ -45,9 +47,32 @@ const NavBar = () => {
                 Browse Products
               </Button>
             </Link>
+            <Link to="/order/confirmation" className="relative">
+              <Button variant="outline" className="border-farm-green text-farm-green hover:bg-green-50">
+                <ShoppingCart className="h-4 w-4 mr-1" />
+                <span>Cart</span>
+                {cartItemCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-farm-green text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartItemCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
           </div>
           
           <div className="md:hidden flex items-center">
+            {/* Cart button for mobile */}
+            <Link to="/order/confirmation" className="relative mr-4">
+              <Button variant="outline" size="icon" className="border-farm-green text-farm-green hover:bg-green-50">
+                <ShoppingCart className="h-4 w-4" />
+                {cartItemCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-farm-green text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartItemCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
+            
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
