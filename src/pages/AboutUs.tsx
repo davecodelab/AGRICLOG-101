@@ -147,13 +147,13 @@ const AboutUs = () => {
               <div className="text-center">
                 <div className="w-40 h-40 rounded-full overflow-hidden mx-auto mb-4">
                   <img 
-                    src="/adom.jpg" 
+                    src="/Samuel.jpg" 
                     alt="Team member" 
                     className="w-full h-full object-cover"
                   />
                 </div>
                <ScrollAnimate delay="delay-300">
-                <h3 className="text-xl font-semibold">Adom Fosu</h3>
+                <h3 className="text-xl font-semibold">Samuel Amoh Baffour</h3>
                 <p className="text-gray-600">CTO</p>
                  </ScrollAnimate>
               </div>
