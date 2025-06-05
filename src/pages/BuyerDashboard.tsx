@@ -1,6 +1,8 @@
 import React from 'react';
 import ProductCard, { Product } from '@/components/ProductCard';
 import { ScrollAnimate } from "../components/ScrollAnimate";
+import NewRequestForm from '@/components/NewRequestForm';
+import RequestTab from '@/components/RequestTab';
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
