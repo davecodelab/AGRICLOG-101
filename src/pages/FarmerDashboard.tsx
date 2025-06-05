@@ -235,9 +235,7 @@ const FarmerDashboard = () => {
                   <h2 className="text-xl font-semibold">My Products</h2>
                      <Button className="bg-farm-green hover:bg-farm-lightGreen"
                     onClick={() => setShowAddProductForm(true)}
-                  >
-                    Add New Product
-                 Add New Product</Button>
+                  > Add New Product</Button>
                 </div>
                 
                 <div className="overflow-x-auto">
