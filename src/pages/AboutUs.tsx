@@ -141,7 +141,7 @@ const AboutUs = () => {
                 </div>
                <ScrollAnimate delay="delay-300">
                 <h3 className="text-xl font-semibold">Samuel Amoh Baffour</h3>
-                <p className="text-gray-600">CTO</p>
+                <p className="text-gray-600">Chief Technology Officer</p>
                  </ScrollAnimate>
               </div>
                <div className="text-center">
@@ -155,7 +155,7 @@ const AboutUs = () => {
                 </div>
                 <ScrollAnimate delay="delay-300">
                 <h3 className="text-xl font-semibold">Glover Kafui Justice</h3>
-                <p className="text-gray-600">Sales and Marketing</p>
+                <p className="text-gray-600">Operations Manager</p>
                 </ScrollAnimate>
               </div>
               <div className="text-center">
