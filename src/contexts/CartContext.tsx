@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import axios from "axios";
 
 export interface CartItem {
   id: string;
@@ -33,7 +34,17 @@ export const useCart = () => {
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
 
-  const addToCart = (product: any, quantity: number) => {
+  const addToCart = async(product: any, quantity: number) => {
+    console.log("product",product)
+    console.log("quantity",quantity)
+
+    const URI = import.meta.env.VITE_BACKEND_URI;
+    if(!URL) return;
+    const response = await axios.post(`${URI}/create/cart`, {product_id: product.id, quantity , user_id: product?.UserID} , {
+      withCredentials: true
+    })
+    console.log(product.UserID)
+    console.log(response.data)
     setItems(prevItems => {
       const existingItem = prevItems.find(item => item.id === product.id);
       

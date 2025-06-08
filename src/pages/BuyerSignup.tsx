@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { ScrollAnimate } from "../components/ScrollAnimate";
+import axios from "axios";
 
 const BuyerSignup = () => {
   const { toast } = useToast();
@@ -31,8 +32,13 @@ const BuyerSignup = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
+
+    const URI = import.meta.env.VITE_BACKEND_URI;
+    if(!URI){
+      console.log("user not found")
+    }
     
     if (formData.password !== formData.confirmPassword) {
       toast({
@@ -44,6 +50,28 @@ const BuyerSignup = () => {
     }
 
     setIsLoading(true);
+
+    const response = await axios.post(`${URI}/create/customer` , formData , {
+      withCredentials: true
+    })
+
+    if(response.data.status === 302){
+      toast({
+        title: "Error",
+        description: response.data?.message,
+        variant: "destructive",
+      });
+      setIsLoading(false);
+    }else if(response.data.status === 301){
+      setTimeout(() => {
+        setIsLoading(false);
+        toast({
+          title: "Registration Successful",
+          description: "Your farmer account has been created!"
+        });
+        // navigate('/dashboard/farmer');
+      }, 1000);
+    }
 
     // In a real app, this would be an API call to register the buyer
     setTimeout(() => {

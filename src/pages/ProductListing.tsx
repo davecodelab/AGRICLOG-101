@@ -1,44 +1,49 @@
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Product } from '@/components/ProductCard';
 import { ArrowLeft, MinusCircle, PlusCircle, Truck } from 'lucide-react';
 import { Link } from 'react-router-dom';  
 import { useCart } from '@/contexts/CartContext';
-import { ScrollAnimate } from "../components/ScrollAnimate";
+import axios from 'axios';
 
 const ProductListing = () => {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
-  
-  // Mock product data - in a real app, this would be fetched from an API
-  const product: Product = {
-    id: id || '1',
-    name: 'Fresh Tomatoes',
-    category: 'Vegetables',
-    price: 40,
-    unit: 'kg',
-    farmer: 'Kwame Mensah',
-    location: 'Accra, Ghana',
-    imageUrl: 'https://images.unsplash.com/photo-1592924357228-9b03954a1d30?q=80&w=1374&auto=format&fit=crop',
-    available: 100,
-  };
+  const [product , setProduct] = useState<any[]>({});
+
+  const fetchProducts = async()=>{
+    const  URI = import.meta.env.VITE_BACKEND_URI;
+    if(!URI) return;
+    try{
+      const response = await axios.get(`${URI}/fetch/product/by/${id}`)
+      console.log(response.data.product)
+      setProduct(response.data?.product);
+      // setProducts(response.data);
+    }catch(e){
+      console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    console.log(id)
+    fetchProducts()
+  }, []);
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    if (!isNaN(value) && value >= 1 && value <= product.available) {
+    if (!isNaN(value) && value >= 1 && value <= product.quantity) {
       setQuantity(value);
     }
   };
 
   const incrementQuantity = () => {
-    if (quantity < product.available) {
+    if (quantity < product.quantity) {
       setQuantity(quantity + 1);
     }
   };
@@ -79,7 +84,7 @@ const ProductListing = () => {
               {/* Product Image */}
               <div className="bg-gray-100 p-4 flex items-center justify-center">
                 <img 
-                  src={product.imageUrl} 
+                  src={`data:image/png;base64,${product.image}`}
                   alt={product.name}
                   className="max-h-96 object-contain"
                 />
@@ -100,15 +105,15 @@ const ProductListing = () => {
                 <div className="border-t border-b py-4 my-4">
                   <div className="flex items-center mb-4">
                     <div className="w-1/3 text-gray-600">Farmer:</div>
-                    <div className="w-2/3 font-medium">{product.farmer}</div>
+                    <div className="w-2/3 font-medium">{product.user?.name}</div>
                   </div>
                   <div className="flex items-center mb-4">
                     <div className="w-1/3 text-gray-600">Location:</div>
-                    <div className="w-2/3">{product.location}</div>
+                    <div className="w-2/3">{product.user?.location}</div>
                   </div>
                   <div className="flex items-center">
                     <div className="w-1/3 text-gray-600">Available:</div>
-                    <div className="w-2/3">{product.available} {product.unit}</div>
+                    <div className="w-2/3">{product.quantity} {product.unit}</div>
                   </div>
                 </div>
                 
@@ -128,14 +133,14 @@ const ProductListing = () => {
                       value={quantity}
                       onChange={handleQuantityChange}
                       min={1}
-                      max={product.available}
+                      max={product.quantity}
                       className="w-20 mx-2 text-center"
                     />
                     <Button 
                       variant="outline" 
                       size="icon"
                       onClick={incrementQuantity}
-                      disabled={quantity >= product.available}
+                      disabled={quantity >= product.quantity}
                     >
                       <PlusCircle className="h-4 w-4" />
                     </Button>

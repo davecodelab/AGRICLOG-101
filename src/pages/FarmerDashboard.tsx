@@ -65,17 +65,18 @@ const FarmerDashboard = () => {
       let results = 0;
       let low = 0;
       const URI = import.meta.env.VITE_BACKEND_URI;
-      console.log(URI)
       if(!URI)return
 
       const response = await axios.get(`${URI}/get/user/${id}`,{
         withCredentials: true
       })
       setProductData(response.data)
-      response.data.map(user => {
-        results += user.price * user.quantity
-        low = user.status === "Low Stock" ? low + 1 : 0
-      })
+      response?.data?.forEach(user => {
+        results += user.price * user.quantity;
+        if (user.status === "Low Stock") {
+          low += 1;
+        }
+      });
       setLow(low)
       setProduct(response.data.length)
       setPrice(results)
@@ -259,7 +260,6 @@ const FarmerDashboard = () => {
                 <TabsTrigger value="analytics">Analytics</TabsTrigger>
                 <TabsTrigger value="deliveries">Deliveries</TabsTrigger>
               </TabsList>
-              
               <TabsContent value="products">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-semibold">My Products</h2>
@@ -284,11 +284,11 @@ const FarmerDashboard = () => {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {productData.map(product => (
+                        {productData?.map(product => (
                         <tr key={product.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-medium text-gray-900 w-12">
-                              <img src={`data:image/png;base64,${product.image}`} className="rounded-full w-full h-full" alt="products" />
+                            <div className="text-sm font-medium text-gray-900 w-14 h-full">
+                              <img src={`data:image/png;base64,${product.image}`} className="object-cover h-full" alt="products" />
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">

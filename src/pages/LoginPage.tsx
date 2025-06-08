@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,55 +21,64 @@ const LoginPage = () => {
   const [status, setStatus] = useState<'farmer' | 'buyer'>('farmer');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleLogin = async(e: React.FormEvent) => {
+
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const URI = import.meta.env.VITE_BACKEND_URI;
-    if(!URI){
+    if (!URI) {
       console.log("backend route not found");
+      return;
     }
 
-    if (!URI) return;
-
-    setIsLoading(true);
 
     const formData = {
-      email: email,
-      password: password,
-      status: status,
-    }
+      email,
+      password,
+      status,
+    };
+
+    const endpoint = status === 'farmer' ? '/login' : '/login/customer';
+
+
     try {
-      const response = await axios.post(`${URI}/login` ,formData, {
-        withCredentials: true
-      })
-      if(response.data.status === 200){
-        setTimeout(() => {
-          setIsLoading(false);
+      setIsLoading(true);
+      const response = await axios.post(`${URI}${endpoint}`, formData, {
+        withCredentials: true,
+      });
+
+      if (response.data.status === 200 && response.data.owner === "farmer") {
+        console.log("Farmer reached")
           toast({
             title: "Login Successful",
             description: `Welcome back! You are logged in as a ${status}.`
           });
+          setIsLoading(false)
 
-          // Redirect based on user type
-          navigate(status === 'farmer' ? '/dashboard/farmer' : '/dashboard/buyer');
-        }, 1000);
-      }else if(response.data.status === 401){
+        navigate("/dashboard/farmer");
+      } else if (response.data.status === 200 && response.data.owner === "buyer") {
+        console.log("Buyer reached")
         toast({
-          title: "Error",
-          description: response?.data?.message,
-          variant: "destructive",
+          title: "Login Successful",
+          description: `Welcome back! You are logged in as a ${status}.`
         });
+        setIsLoading(false)
+        console.log(response.data.link);
+        navigate("/dashboard/buyer");
       }
-      setIsLoading(false);
-
-    } catch(err: any) {
+    } catch (err: any) {
+      console.log("Error",err);
       toast({
         title: "Error",
-        description: err?.response?.data?.message,
+        description: err?.response?.data?.message || "Something went wrong.",
         variant: "destructive",
       });
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
+
+
+
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />

@@ -23,7 +23,7 @@ const AddProductForm = ({ onClose, onSubmit }: AddProductFormProps) => {
     quantity: '',
     unit: 'kg',
     description: '',
-    image: null as File | null,
+    imageFile: null as File | null,
   });
 
   const categories = ['Vegetables', 'Fruits', 'Grains', 'Dairy', 'Spices'];
@@ -53,7 +53,7 @@ const AddProductForm = ({ onClose, onSubmit }: AddProductFormProps) => {
     }
 
     // Create a mock image URL for demo purposes
-    const imageUrl = formData.image
+    const imageUrl = formData.imageFile
       // ? URL.createObjectURL(formData.imageFile)
       // : 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1374&auto=format&fit=crop';
 
@@ -65,7 +65,7 @@ const AddProductForm = ({ onClose, onSubmit }: AddProductFormProps) => {
       quantity: parseInt(formData.quantity),
       status: 'Available',
       description: formData.description,
-      image: formData.image,
+      image: formData.imageFile,
     };
     // onSubmit(productData);
 
@@ -206,8 +206,8 @@ const AddProductForm = ({ onClose, onSubmit }: AddProductFormProps) => {
                     <Upload className="h-4 w-4" />
                     <span>Upload Image</span>
                   </Button>
-                  {formData.image && (
-                    <span className="text-sm text-gray-600">{formData.image.name}</span>
+                  {formData.imageFile && (
+                    <span className="text-sm text-gray-600">{formData.imageFile.name}</span>
                   )}
                 </div>
               </div>

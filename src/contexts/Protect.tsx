@@ -20,8 +20,8 @@ const Protect: React.FC<Props> = ({ children }) => {
             const response = await axios.get(`${URI}/protected`, {
                 withCredentials: true
             });
-            if (response.data.states === true) {
-                if(response.data.user.status === "farmer".toLowerCase()){
+            if (response.data.status=== true) {
+                if(response.data.state === "farmer".toLowerCase()){
                     navigate("/dashboard/farmer");
                     setName(response.data.user.name);
                     SetId(response.data.user.id);

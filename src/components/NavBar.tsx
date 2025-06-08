@@ -20,18 +20,18 @@ const NavBar = () => {
       const response = await axios.get(`${URI}/protected`, {
         withCredentials: true
       })
-      SetState(response.data.states);
-      const userStatus = response.data.user?.status;
-      SetState(response.data.states);
+      const userStatuses = response?.data?.state;
+      SetState(response?.data?.status);
 
-      if (response.data.states === true) {
-        if (userStatus === "farmer") {
+      if (response.data.status === true) {
+        if (userStatuses === "farmer") {
+          SetState(true);
           setUserStatus("/dashboard/farmer");
-        } else if (userStatus === "buyer") {
+        } else if (userStatuses === "buyer") {
+          SetState(true)
           setUserStatus("/dashboard/buyer");
         }
       }
-      console.log(response.data)
     }catch (e) {
       SetState(false)
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ProductCard, { Product } from '@/components/ProductCard';
 import { ScrollAnimate } from "../components/ScrollAnimate";
 
@@ -22,6 +22,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import {useUser} from "@/contexts/useContext.tsx";
+import axios from "axios";
 
 const recentOrderData = [
   {
@@ -90,8 +91,26 @@ const BuyerDashboard = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('home');
   const { name } = useUser();
+  const [product , setProducts] = useState([]);
 
-  return (
+  const fetchProducte = async()=>{
+    const  URI = import.meta.env.VITE_BACKEND_URI;
+    if(!URI) return;
+    try{
+      const response = await axios.get(`${URI}/get/all/products`)
+      console.log(response.data)
+      setProducts(response.data);
+    }catch(e){
+      console.log(e)
+    }
+  }
+
+
+  useEffect(() => {
+    fetchProducte();
+  }, []);
+
+return (
     <ScrollAnimate delay="delay-150">
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
@@ -333,7 +352,7 @@ const BuyerDashboard = () => {
                 </div>
                 
                 <div className="grid md:grid-cols-3 gap-6">
-                  {recommendedProducts.map((product) => (
+                  {product.map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
                 </div>
