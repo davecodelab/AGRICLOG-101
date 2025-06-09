@@ -35,16 +35,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
 
   const addToCart = async(product: any, quantity: number) => {
-    console.log("product",product)
-    console.log("quantity",quantity)
+
 
     const URI = import.meta.env.VITE_BACKEND_URI;
     if(!URL) return;
-    const response = await axios.post(`${URI}/create/cart`, {product_id: product.id, quantity , user_id: product?.UserID} , {
+    const response = await axios.post(`${URI}/create/cart`, {product_id: product.id, quantity , user_id: product?.UserID ,customer_id: product?.CustomerID} , {
       withCredentials: true
     })
-    console.log(product.UserID)
-    console.log(response.data)
     setItems(prevItems => {
       const existingItem = prevItems.find(item => item.id === product.id);
       

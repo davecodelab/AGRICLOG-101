@@ -51,66 +51,69 @@ const recentOrderData = [
   },
 ];
 
-const recommendedProducts: Product[] = [
-  {
-    id: '1',
-    name: 'Fresh Tomatoes',
-    category: 'Vegetables',
-    price: 40,
-    unit: 'kg',
-    farmer: 'Kwamina Ebo',
-    location: 'Wiamoasi, Kumasi',
-    imageUrl: 'https://images.unsplash.com/photo-1592924357228-9b03954a1d30?q=80&w=1374&auto=format&fit=crop',
-    available: 100,
-  },
-  {
-    id: '2',
-    name: 'Organic Rice',
-    category: 'Grains',
-    price: 60,
-    unit: 'kg',
-    farmer: 'Agyeiwaa Adomako',
-    location: 'Oyibi, Accra',
-    imageUrl: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?q=80&w=1470&auto=format&fit=crop',
-    available: 500,
-  },
-  {
-    id: '3',
-    name: 'Fresh Apples',
-    category: 'Fruits',
-    price: 120,
-    unit: 'kg',
-    farmer: 'Julius Owusu',
-    location: 'Doboro, Accra',
-    imageUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=1374&auto=format&fit=crop',
-    available: 80,
-  }
-];
 
 const BuyerDashboard = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('home');
   const { name } = useUser();
   const [product , setProducts] = useState([]);
+  const [cartProduct , setCartProduct] = useState([]);
+  const [ cartNumber  , setCartNumber ] = useState();
+  const [orders , setOrders] = useState([]);
+  const result = 0;
 
   const fetchProducte = async()=>{
     const  URI = import.meta.env.VITE_BACKEND_URI;
     if(!URI) return;
     try{
       const response = await axios.get(`${URI}/get/all/products`)
-      console.log(response.data)
       setProducts(response.data);
+
     }catch(e){
       console.log(e)
     }
   }
 
+  const fetchOrders = async()=>{
+    const  URI = import.meta.env.VITE_BACKEND_URI;
+    if(!URI) return;
+    try{
+      const response = await axios.get(`${URI}/fetch/orders` , {
+        withCredentials:true
+      })
+      setOrders(response.data.order);
+      console.log(response.data)
+    }catch(e){
+      console.log(e)
+    }
+  }
 
+  const fetchcartProducte = async()=>{
+    const  URI = import.meta.env.VITE_BACKEND_URI;
+    if(!URI) return;
+    try{
+      const response = await axios.get(`${URI}/fetch/cart/buyer`,{
+        withCredentials: true
+      })
+      console.log(response.data)
+      setCartProduct(response.data.cart)
+      setCartNumber(response.data?.cart?.length)
+    }catch(e){
+      console.log(e)
+    }
+  }
   useEffect(() => {
     fetchProducte();
+    fetchcartProducte()
+    fetchOrders()
   }, []);
 
-return (
+  const totalCost = cartProduct.reduce((acc, cart) => {
+    return acc + (cart.quantity * cart.product?.price || 0);
+  }, 0);
+
+
+  return (
     <ScrollAnimate delay="delay-150">
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
@@ -254,9 +257,9 @@ return (
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm text-gray-500 mb-1">Cart Items</p>
-                        <h3 className="text-2xl font-bold">5</h3>
+                        <h3 className="text-2xl font-bold">{cartNumber}</h3>
                         <p className="text-xs text-gray-500 flex items-center mt-1">
-                          GHS 3,200 total
+                          &#8373; {totalCost?.toFixed(2)}
                         </p>
                       </div>
                       <div className="bg-green-100 p-3 rounded-full">
@@ -299,37 +302,37 @@ return (
                       <tr>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Items</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Farm</th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Farmer</th>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {recentOrderData.map((order) => (
+                      {orders.map((order) => (
                         <tr key={order.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-medium text-gray-900">{order.id}</div>
+                            <div className="text-sm font-medium text-gray-900">ORD-{order.id.slice(0,8)}</div>
                             <div className="text-xs text-gray-500">{order.date}</div>
                           </td>
                           <td className="px-6 py-4">
-                            <div className="text-sm text-gray-500">{order.items}</div>
+                            <div className="text-sm text-gray-500">{order.product?.name}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">{order.farm}</div>
+                            <div className="text-sm text-gray-900">{order.user?.name}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">{order.total}</div>
+                            <div className="text-sm text-gray-900">&#8373;{(order.quantity * order?.product?.price).toFixed(2)}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                              order.status === 'Delivered' 
+                              order.Status === 'Delivered' 
                                 ? 'bg-green-100 text-green-800' 
-                                : order.status === 'En Route'
+                                : order.Status === 'En Route'
                                 ? 'bg-blue-100 text-blue-800'
                                 : 'bg-yellow-100 text-yellow-800'
                             }`}>
-                              {order.status}
+                              {order.Status}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -377,10 +380,57 @@ return (
             </TabsContent>
             
             <TabsContent value="cart">
-              <div className="text-center py-16">
-                <h3 className="text-xl font-medium text-gray-500">Shopping Cart Coming Soon</h3>
-                <p className="text-gray-400 mt-2">Manage your items and complete checkout</p>
-              </div>
+              {/*<div className="text-center py-16">*/}
+              {/*  <h3 className="text-xl font-medium text-gray-500">Shopping Cart Coming Soon</h3>*/}
+              {/*  <p className="text-gray-400 mt-2">Manage your items and complete checkout</p>*/}
+              {/*</div>*/}
+
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                <tr>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Farmer</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+
+
+                {cartProduct.map((cart) => (
+                    <tr key={cart.id}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <img src={`data:image/png;base64,${cart.product?.image}`} className={"object-contain rounded-sm shadow-md shadow-gray-200 w-20 h-full"} alt={"product-image"}/>
+                        <div className="text-xs text-gray-500">{cart.date}</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-500">{cart.product?.name}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{cart.user?.name}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{cart.product?.category}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{cart.product?.price}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{cart?.quantity}/{cart?.product?.unit}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">&#8373;{cart?.quantity * cart.product?.price}</div>
+                      </td>
+                      {/*<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">*/}
+                      {/*  <Button variant="ghost" size="sm" className="text-farm-green hover:text-farm-lightGreen">Track</Button>*/}
+                      {/*</td>*/}
+                    </tr>
+                ))}
+                </tbody>
+              </table>
             </TabsContent>
           </Tabs>
         </div>

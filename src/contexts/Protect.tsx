@@ -12,6 +12,7 @@ const Protect: React.FC<Props> = ({ children }) => {
     const [state, setStatus] = useState<boolean | null>(null);
     const [name, setName] = useState("");
     const [id , SetId ] = useState("")
+    const [len , setLen ] = useState()
     const navigate = useNavigate();
 
     const fetchStatus = async () => {
@@ -41,14 +42,16 @@ const Protect: React.FC<Props> = ({ children }) => {
         }
     };
 
+
     useEffect(() => {
         fetchStatus();
+
     }, []);
 
     if (state === null) return null; // loading state
 
     return state ? (
-        <UserContext.Provider value={{ name, setName , id , SetId}}>
+        <UserContext.Provider value={{ name, setName , id , SetId }}>
             {children}
         </UserContext.Provider>
     ) : (

@@ -1,16 +1,18 @@
 
 import {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import {Menu, ShoppingCart, X} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import axios from "axios";
+import getCartNumber from "@/pages/BuyerDashboard.tsx";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [ state , SetState ] = useState<boolean>(false);
   const navigate = useNavigate();
   const [userStatus, setUserStatus] = useState<string | null>(null);
-
+  const [len , setLen] = useState<number | null>(0);
+  const cartItemCount = 1;
 
 
   const fetchState = async()=>{
@@ -37,8 +39,22 @@ const NavBar = () => {
     }
   }
 
+  const fetchcartProductsLength = async()=>{
+    const  URI = import.meta.env.VITE_BACKEND_URI;
+    if(!URI) return;
+    try{
+      const response = await axios.get(`${URI}/fetch/cart/buyer`,{
+        withCredentials: true
+      })
+      setLen(response.data?.cart?.length)
+    }catch(e){
+      console.log(e)
+    }
+  }
+
   useEffect(() => {
     fetchState()
+    fetchcartProductsLength()
   });
 
   return (
@@ -89,9 +105,30 @@ const NavBar = () => {
                 Browse Products
               </Button>
             </Link>
+            <Link to="/order/confirmation" className="relative">
+              <Button variant="outline" className="border-farm-green text-farm-green hover:bg-green-50">
+                <ShoppingCart className="h-4 w-4 mr-1" />
+                <span>Cart</span>
+                {len > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-farm-green text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                    {len}
+                  </span>
+                )}
+              </Button>
+            </Link>
           </div>
           
           <div className="md:hidden flex items-center">
+            <Link to="/order/confirmation" className="relative mr-4">
+              <Button variant="outline" size="icon" className="border-farm-green text-farm-green hover:bg-green-50">
+                <ShoppingCart className="h-4 w-4" />
+                {len > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-farm-green text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                    {len}
+                  </span>
+                )}
+              </Button>
+            </Link>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"

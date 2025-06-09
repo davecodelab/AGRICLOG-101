@@ -11,7 +11,7 @@ export const UserContext = createContext<UserContextType>({
     name: "",
     setName: () => {},
     id: "",
-    SetId: ()=>{}
+    SetId: ()=>{},
 });
 
 export const useUser = () => useContext(UserContext);

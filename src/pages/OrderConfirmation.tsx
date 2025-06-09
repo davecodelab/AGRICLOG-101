@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -12,39 +12,70 @@ import { Textarea } from '@/components/ui/textarea';
 import { ScrollAnimate } from "../components/ScrollAnimate";
 import { ArrowRight, CreditCard, MapPin, Truck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import axios from "axios";
 
 const OrderConfirmation = () => {
   const [paymentMethod, setPaymentMethod] = useState('cod');
+  const [cartProduct, setCartProduct] = useState([]);
+  const [description, setDescription] = useState('');
+  const [agree , setAgree] = useState<boolean>();
   
   // Mock order data - in a real app, this would come from cart state or API
-  const order = {
-    items: [
-      {
-        id: '1',
-        name: 'Fresh Tomatoes',
-        price: 40,
-        quantity: 5,
-        unit: 'kg',
-        imageUrl: 'https://imgs.search.brave.com/ZQIwhe16XdfAcbluguBWxZzql2SVpSyGfi3pMATU9BA/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWdz/LnNlYXJjaC5icmF2/ZS5jb20vaE1SNjBf/cG9nd0hWXzRORmkt/dS1ra2JLQzBtM1ZP/Tm90bEJYX050cDdY/SS9yczpmaXQ6NTAw/OjA6MDowL2c6Y2Uv/YUhSMGNITTZMeTl0/WldScC9ZUzVwYzNS/dlkydHdhRzkwL2J5/NWpiMjB2YVdRdk9E/UTMvTXpNMU1URTJM/M0JvYjNSdi9MM1J2/YldGMGIyVnpMVzl1/L0xYUm9aUzEyYVc1/bExtcHcvWno5elBU/WXhNbmcyTVRJbS9k/ejB3Sm1zOU1qQW1Z/ejFZL2MzQk5NbmxU/ZGxWbWNXcHUvZERk/SVREVnhTM2x1TUhS/NS9VbUkxY1V4elpq/RkhRVkEyL0xUTjRV/WE4zUFE.jpeg',
-      },
-      {
-        id: '3',
-        name: 'Fresh Apples',
-        price: 120,
-        quantity: 2,
-        unit: 'kg',
-        imageUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=1374&auto=format&fit=crop',
+
+  const handlePlaceOrder = async() => {
+    const URI = import.meta.env.VITE_BACKEND_URI;
+    if(!URI)return
+    try{
+      for (const cart of cartProduct) {
+        const formData = {
+          cart_id: cart.id,
+          user_id: cart?.user?.id,
+          customer_id: cart?.customer?.id,
+          product_id: cart.product?.id,
+          quantity: cart.quantity,
+          description: description, // make sure 'description' is defined in state
+          agree: agree,
+        };
+
+        console.log(formData);
+
+        const response = await axios.post(`${URI}/create/order`, formData, {
+          withCredentials: true,
+        });
+        console.log(response.data)
       }
-    ],
-    subtotal: 440,
-    deliveryFee: 60,
-    total: 500,
+
+
+    }catch(e){
+      console.log(e)
+    }
+
+    // In a real app, this would submit the order to an API
+    // window.location.href = '/order/tracking';
   };
 
-  const handlePlaceOrder = () => {
-    // In a real app, this would submit the order to an API
-    window.location.href = '/order/tracking';
-  };
+  const handleFetch = async()=>{
+    const  URI = import.meta.env.VITE_BACKEND_URI;
+    if(!URI) return;
+    try{
+      const response = await axios.get(`${URI}/fetch/cart/buyer`,{
+        withCredentials: true
+      })
+      setCartProduct(response.data.cart)
+      console.log(response.data)
+    }catch(e){
+      console.log(e)
+    }
+  }
+
+  const totalCost = cartProduct.reduce((acc, cart) => {
+    return acc + ((cart.quantity * cart.product?.price) || 0);
+  }, 0);
+
+
+  useEffect(() => {
+    handleFetch()
+  }, []);
 
   return (
     <ScrollAnimate>
@@ -62,26 +93,26 @@ const OrderConfirmation = () => {
                 <CardContent className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
                   
-                  {order.items.map(item => (
+                  {cartProduct.map(item => (
                     <div key={item.id} className="flex py-4 border-b">
                       <div className="h-20 w-20 flex-shrink-0 bg-gray-100 rounded overflow-hidden">
                         <img 
-                          src={item.imageUrl} 
-                          alt={item.name}
+                          src={`data:image/png;base64,${item?.product?.image}`}
+                          alt={item.product?.name}
                           className="h-full w-full object-cover"
                         />
                       </div>
                       <div className="ml-4 flex-grow">
-                        <h3 className="font-medium text-gray-900">{item.name}</h3>
+                        <h3 className="font-medium text-gray-900">{item?.product?.name}</h3>
                         <p className="text-gray-600 text-sm">
-                          GHS {item.price} per {item.unit}
+                          GHS {item?.product?.price} per {item.product?.unit}
                         </p>
                         <p className="text-gray-600 text-sm">
-                          Quantity: {item.quantity} {item.unit}
+                          Quantity: {item.quantity} {item?.product?.unit}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium">GHS {item.price * item.quantity}</p>
+                        <p className="font-medium">GHS {item?.product?.price * item.quantity}</p>
                       </div>
                     </div>
                   ))}
@@ -89,16 +120,16 @@ const OrderConfirmation = () => {
                   <div className="mt-6 space-y-2">
                     <div className="flex justify-between text-gray-600">
                       <span>Subtotal</span>
-                      <span>GHS {order.subtotal}</span>
+                      <span>GHS {totalCost.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-gray-600">
                       <span>Delivery Fee</span>
-                      <span>GHS {order.deliveryFee}</span>
+                      <span>GHS 60</span>
                     </div>
                     <Separator className="my-2" />
                     <div className="flex justify-between font-bold text-lg">
                       <span>Total</span>
-                      <span>GHS {order.total}</span>
+                      <span>GHS {(totalCost + 60).toFixed(2)}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -166,14 +197,15 @@ const OrderConfirmation = () => {
                   
                   <div className="mt-6">
                     <h3 className="font-semibold mb-2">Order Notes (Optional)</h3>
-                    <Textarea 
+                    <Textarea
+                        onChange={(e)=>setDescription(e.target.value)}
                       placeholder="Special instructions for delivery"
                       className="resize-none"
                     />
                   </div>
                   
                   <div className="mt-6 flex items-center">
-                    <Checkbox id="terms" />
+                    <Checkbox id="terms" onCheckedChange={(checked) => setAgree(checked)}/>
                     <label 
                       htmlFor="terms" 
                       className="ml-2 text-sm text-gray-600"

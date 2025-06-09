@@ -9,7 +9,7 @@ const Footer = () => {
           <div>
             <h3 className="text-farm-green font-bold text-lg mb-3">AGRODEVS</h3>
             <p className="text-gray-600 text-sm">
-              Connecting farmers directly to cONSUMERS in towns and cities. We're reducing waste and helping both sides get better value.
+              Connecting farmers directly to CONSUMERS in towns and cities. We're reducing waste and helping both sides get better value.
             </p>
           </div>
           <div>
