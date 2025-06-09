@@ -53,7 +53,7 @@ const FarmerSignup = () => {
       withCredentials: true
     })
 
-    if(response.data.status === 302){
+    if(response.status === 302){
       toast({
         title: "Error",
         description: response.data?.message,
@@ -61,6 +61,7 @@ const FarmerSignup = () => {
       });
       setIsLoading(false);
     }else if(response.data.status === 301){
+      setIsLoading(false)
       setTimeout(() => {
         setIsLoading(false);
         toast({
