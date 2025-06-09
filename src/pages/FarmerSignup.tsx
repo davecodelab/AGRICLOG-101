@@ -48,7 +48,6 @@ const FarmerSignup = () => {
 
 
     setIsLoading(true);
-
     const response = await axios.post(`${URI}/create` , formData , {
       withCredentials: true
     })
@@ -61,7 +60,7 @@ const FarmerSignup = () => {
       });
       setIsLoading(false);
     }else if(response.data.status === 301){
-      setIsLoading(false)
+
       setTimeout(() => {
         setIsLoading(false);
         toast({
@@ -70,6 +69,8 @@ const FarmerSignup = () => {
         });
         // navigate('/dashboard/farmer');
       }, 1000);
+
+      setIsLoading(false)
     }
   };
 
