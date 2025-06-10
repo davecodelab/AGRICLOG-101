@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState , useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Package, TrendingUp, File, Truck, PlusCircle, Search, Calendar, User, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,32 +7,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import AddProductForm from '@/components/AddProductForm';
 import { ScrollAnimate } from "../components/ScrollAnimate";
+import {useUser} from "../contexts/useContext.tsx";
+import axios from "axios";
 
-const initialProductData = [{
-  id: '1',
-  name: 'Fresh Tomatoes',
-  category: 'Vegetables',
-  price: 40,
-  unit: 'kg',
-  quantity: 100,
-  status: 'Available'
-}, {
-  id: '2',
-  name: 'Organic Potatoes',
-  category: 'Vegetables',
-  price: 30,
-  unit: 'kg',
-  quantity: 150,
-  status: 'Available'
-}, {
-  id: '3',
-  name: 'Green Chilies',
-  category: 'Spices',
-  price: 60,
-  unit: 'kg',
-  quantity: 50,
-  status: 'Low Stock'
-}];
+
 const orderData = [{
   id: 'ORD-001',
   buyer: 'Palms Restaurant',
@@ -59,12 +37,65 @@ const FarmerDashboard = () => {
   const {
     toast
   } = useToast();
+  const { name , id } = useUser();
   const [activeTab, setActiveTab] = useState('products');
   const [showAddProductForm, setShowAddProductForm] = useState(false);
-  const [productData, setProductData] = useState(initialProductData);
-  const handleAddProduct = (newProduct: any) => {
-    setProductData(prev => [...prev, newProduct]);
+  const [productData, setProductData] = useState([]);
+  const [price, setPrice] = useState(0);
+  const [product , setProduct] = useState(0);
+  const [low , setLow] = useState(0);
+
+  const handleAddProduct = async(newProduct: any) => {
+    try{
+      const URI = import.meta.env.VITE_BACKEND_URI;
+      if(URI)return
+      const response = await axios.post(`${URI}/create/product`,newProduct,{
+        withCredentials: true,
+      })
+      console.log(response.data)
+      setProductData(prev => [...prev, newProduct]);
+    }catch (e) {
+      console.log(e)
+    }
   };
+
+
+  const handleFetchProduct = async() => {
+    try{
+      let results = 0;
+      let low = 0;
+      const URI = import.meta.env.VITE_BACKEND_URI;
+      if(!URI)return
+
+      const response = await axios.get(`${URI}/get/user/${id}`,{
+        withCredentials: true
+      })
+      setProductData(response.data)
+      response?.data?.forEach(user => {
+        results += user.price * user.quantity;
+        if (user.status === "Low Stock") {
+          low += 1;
+        }
+      });
+      setLow(low)
+      setProduct(response.data.length)
+      setPrice(results)
+    }catch (e) {
+      console.log(e)
+    }
+  };
+
+  useEffect(() => {
+    const fetchInterval = setInterval(() => {
+      handleFetchProduct(); // Fetch updates every 10 seconds
+    }, 10000);
+
+    // Initial fetch
+    handleFetchProduct();
+
+    // Cleanup
+    return () => clearInterval(fetchInterval);
+  },[])
 
   return <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
@@ -80,7 +111,7 @@ const FarmerDashboard = () => {
               <Package className="h-5 w-5" />
               <span>My Products</span>
             </button>
-            
+
             <button onClick={() => setActiveTab('orders')} className={`flex items-center space-x-3 px-3 py-2 w-full text-left rounded-md ${activeTab === 'orders' ? 'bg-green-50 text-farm-green' : 'hover:bg-gray-100'}`}>
               <File className="h-5 w-5" />
               <span>Orders</span>
@@ -146,7 +177,7 @@ const FarmerDashboard = () => {
         <div className="p-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">Welcome, Agyemang
+              <h1 className="text-2xl font-bold text-gray-800">Welcome, {name.split(" ")[0]}
 !</h1>
               <p className="text-gray-600">Here's what's happening with your farm today</p>
             </div>
@@ -174,7 +205,7 @@ const FarmerDashboard = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-gray-500 mb-1">Total Revenue</p>
-                    <h3 className="text-2xl font-bold">GHS 68,500</h3>
+                    <h3 className="text-2xl font-bold">GHS {price}</h3>
                     <p className="text-xs text-green-600 flex items-center mt-1">
                       +12% from last month
                     </p>
@@ -208,9 +239,9 @@ const FarmerDashboard = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-gray-500 mb-1">Products Listed</p>
-                    <h3 className="text-2xl font-bold">36</h3>
+                    <h3 className="text-2xl font-bold">{product}</h3>
                     <p className="text-xs text-orange-600 flex items-center mt-1">
-                      3 low in stock
+                      {low} low in stock
                     </p>
                   </div>
                   <div className="bg-orange-100 p-3 rounded-full">
@@ -229,19 +260,21 @@ const FarmerDashboard = () => {
                 <TabsTrigger value="analytics">Analytics</TabsTrigger>
                 <TabsTrigger value="deliveries">Deliveries</TabsTrigger>
               </TabsList>
-              
               <TabsContent value="products">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-semibold">My Products</h2>
                      <Button className="bg-farm-green hover:bg-farm-lightGreen"
                     onClick={() => setShowAddProductForm(true)}
-                  > Add New Product</Button>
+                  >
+                    Add New Product
+                 Add New Product</Button>
                 </div>
                 
                 <div className="overflow-x-auto">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
@@ -251,8 +284,13 @@ const FarmerDashboard = () => {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {productData.map(product => (
+                        {productData?.map(product => (
                         <tr key={product.id}>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-gray-900 w-14 h-full">
+                              <img src={`data:image/png;base64,${product.image}`} className="object-cover h-full" alt="products" />
+                            </div>
+                          </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">{product.name}</div>
                           </td>

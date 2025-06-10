@@ -20,7 +20,7 @@ export interface Product {
 interface ProductCardProps {
   product: Product;
 }
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product }) => {
 const { addToCart } = useCart();
   const { toast } = useToast();
   const handleAddToCart = () => {
@@ -34,7 +34,7 @@ const { addToCart } = useCart();
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="h-48 bg-gray-200 relative overflow-hidden">
         <img 
-          src={product.imageUrl || '/placeholder.svg'} 
+          src={`data:image/png;base64,${product.image}` || '/placeholder.svg'}
           alt={product.name}
           className="w-full h-full object-cover"
         />
@@ -47,12 +47,13 @@ const { addToCart } = useCart();
           </div>
           <div className="text-right">
             <p className="font-bold text-farm-green">GHS {product.price}/{product.unit}</p>
-            <p className="text-xs text-gray-500">{product.available} {product.unit} available</p>
+            <p className="text-xs text-gray-500">{product.quantity} {product.unit} available</p>
           </div>
         </div>
         <div className="mt-2">
           <p className="text-xs text-gray-600">
-            by <span className="font-medium">{product.farmer}</span> • {product.location.includes("Ghana") ? product.location : `${product.location}, Ghana`}
+            by <span className="font-medium">{product?.user?.name.split(" ")[0]}</span> • {product.user?.location.includes("Ghana") ? product.user?.location : `${product?.user?.location}, Ghana`}
+
           </p>
         </div>
       </CardContent>

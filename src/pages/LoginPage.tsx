@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import axios from 'axios';
+
 
 const LoginPage = () => {
   const {
@@ -16,24 +18,67 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState<'farmer' | 'buyer'>('farmer');
-  const [isLoading, setIsLoading] = useState(false);
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+  const [status, setStatus] = useState<'farmer' | 'buyer'>('farmer');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    // In a real app, this would be an API call to authenticate
-    setTimeout(() => {
-      setIsLoading(false);
-      toast({
-        title: "Login Successful",
-        description: `Welcome back! You are logged in as a ${userType}.`
+
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const URI = import.meta.env.VITE_BACKEND_URI;
+    if (!URI) {
+      console.log("backend route not found");
+      return;
+    }
+
+
+    const formData = {
+      email,
+      password,
+      status,
+    };
+
+    const endpoint = status === 'farmer' ? '/login' : '/login/customer';
+
+
+    try {
+      setIsLoading(true);
+      const response = await axios.post(`${URI}${endpoint}`, formData, {
+        withCredentials: true,
       });
 
-      // Redirect based on user type
-      navigate(userType === 'farmer' ? '/dashboard/farmer' : '/dashboard/buyer');
-    }, 1000);
+      if (response.data.status === 200 && response.data.owner === "farmer") {
+        console.log("Farmer reached")
+          toast({
+            title: "Login Successful",
+            description: `Welcome back! You are logged in as a ${status}.`
+          });
+          setIsLoading(false)
+
+        navigate("/dashboard/farmer");
+      } else if (response.data.status === 200 && response.data.owner === "buyer") {
+        console.log("Buyer reached")
+        toast({
+          title: "Login Successful",
+          description: `Welcome back! You are logged in as a ${status}.`
+        });
+        setIsLoading(false)
+        console.log(response.data.link);
+        navigate("/dashboard/buyer");
+      }
+    } catch (err: any) {
+      console.log("Error",err);
+      toast({
+        title: "Error",
+        description: err?.response?.data?.message || "Something went wrong.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+    }
   };
+
+
+
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
@@ -55,7 +100,7 @@ const LoginPage = () => {
             </CardHeader>
             
             <CardContent>
-              <Tabs defaultValue="farmer" onValueChange={value => setUserType(value as 'farmer' | 'buyer')}>
+              <Tabs defaultValue="farmer" onValueChange={value => setStatus(value as 'farmer' | 'buyer')}>
                 <TabsList className="grid grid-cols-2 mb-6 bg-white/20 backdrop-blur-sm">
                   <TabsTrigger value="farmer" className="text-white data-[state=active]:bg-farm-green data-[state=active]:text-white">Farmer</TabsTrigger>
                   <TabsTrigger value="buyer" className="text-white data-[state=active]:bg-farm-green data-[state=active]:text-white">Consumer</TabsTrigger>
@@ -145,7 +190,7 @@ const LoginPage = () => {
               <div className="w-full text-center">
                 <p className="text-sm text-white/80">
                   Don't have an account?{" "}
-                  <Link to={userType === 'farmer' ? '/signup/farmer' : '/signup/buyer'} className="text-white hover:underline">
+                  <Link to={status === 'farmer' ? '/signup/farmer' : '/signup/buyer'} className="text-white hover:underline">
                     Sign up now
                   </Link>
                 </p>

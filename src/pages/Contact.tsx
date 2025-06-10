@@ -8,6 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { ScrollAnimate } from "../components/ScrollAnimate";
+import axios from "axios";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -25,10 +26,17 @@ const Contact = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
+    const URI = import.meta.env.VITE_BACKEND_URL;
+    if(!URL)return
+    const response = await axios.post(`${URI}/send/email` ,formData , {
+      withCredentials: true,
+    })
+
+    console.log(response.data)
     // In a real app, this would send the form data to an API
     setTimeout(() => {
       setIsSubmitting(false);

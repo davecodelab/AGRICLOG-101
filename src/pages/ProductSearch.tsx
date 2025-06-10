@@ -1,5 +1,5 @@
 
-import { useState, useMemo } from 'react';
+import {useState, useMemo, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Filter, ArrowDown, ArrowUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,7 @@ import ProductCard, { Product } from '@/components/ProductCard';
 import { useToast } from '@/hooks/use-toast';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import axios from "axios";
 
 const productsData: Product[] = [
   {
@@ -93,6 +94,22 @@ const ProductSearch = () => {
   const [priceRange, setPriceRange] = useState([0, 150]);
   const [sortOption, setSortOption] = useState('recommended');
   const [showFilters, setShowFilters] = useState(false);
+  const [productes , setProductes] = useState<any[]>([])
+
+  const fetchProducts = async()=>{
+    const  URI = import.meta.env.VITE_BACKEND_URI;
+    if(!URI) return;
+    try{
+      const response = await axios.get(`${URI}/get/all/products`)
+      setProductes(response.data);
+    }catch(e){
+      console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts()
+  }, []);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategories(prev => 
@@ -111,7 +128,7 @@ const ProductSearch = () => {
   };
 
   const filteredProducts = useMemo(() => {
-    return productsData.filter(product => {
+    return productes.filter(product => {
       // Search term filter
       if (searchTerm && !product.name.toLowerCase().includes(searchTerm.toLowerCase())) {
         return false;
@@ -123,7 +140,7 @@ const ProductSearch = () => {
       }
       
       // Location filter
-      if (selectedLocations.length > 0 && !selectedLocations.some(location => product.location.includes(location))) {
+      if (selectedLocations.length > 0 && !selectedLocations.some(location => product.user?.location.includes(location))) {
         return false;
       }
       

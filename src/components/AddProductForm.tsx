@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { X, Upload } from 'lucide-react';
+import axios from "axios";
 
 interface AddProductFormProps {
   onClose: () => void;
@@ -39,7 +40,7 @@ const AddProductForm = ({ onClose, onSubmit }: AddProductFormProps) => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.category || !formData.price || !formData.quantity) {
@@ -52,12 +53,11 @@ const AddProductForm = ({ onClose, onSubmit }: AddProductFormProps) => {
     }
 
     // Create a mock image URL for demo purposes
-    const imageUrl = formData.imageFile 
-      ? URL.createObjectURL(formData.imageFile)
-      : 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1374&auto=format&fit=crop';
+    const imageUrl = formData.imageFile
+      // ? URL.createObjectURL(formData.imageFile)
+      // : 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1374&auto=format&fit=crop';
 
     const productData = {
-      id: Date.now().toString(),
       name: formData.name,
       category: formData.category,
       price: parseFloat(formData.price),
@@ -65,17 +65,48 @@ const AddProductForm = ({ onClose, onSubmit }: AddProductFormProps) => {
       quantity: parseInt(formData.quantity),
       status: 'Available',
       description: formData.description,
-      imageUrl,
+      image: formData.imageFile,
     };
+    // onSubmit(productData);
 
-    onSubmit(productData);
-    
-    toast({
-      title: "Success",
-      description: "Product added successfully!",
-    });
-    
-    onClose();
+    const form = new FormData();
+    form.append('name', formData.name);
+    form.append('category', formData.category);
+    // @ts-expect-error
+    form.append('price', parseInt(formData.price));
+    form.append('quantity', formData.quantity);
+    form.append('unit', formData.unit);
+    form.append('description', formData.description);
+    form.append('image', imageUrl);
+    form.append('status' , "Available")
+
+    onSubmit(form)
+
+    try{
+      const URI = import.meta.env.VITE_BACKEND_URI;
+      if(!URI){
+        toast({
+          title: "Error",
+          description: "Backend URI is not defined.",
+          variant: "destructive",
+        });
+        return;
+      }
+      const response = await axios.post(`${URI}/create/product`,form,{
+        withCredentials: true
+      })
+      //
+      console.log(response.data)
+      toast({
+        title: "Success",
+        description: "Product added successfully!",
+      });
+      onClose();
+      // setProductData(prev => [...prev, newProduct]);
+    }catch (e) {
+      console.log(e)
+      onClose();
+    }
   };
 
   return (

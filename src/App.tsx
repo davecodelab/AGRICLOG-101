@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ScrollAnimate } from "./components/ScrollAnimate";
 import { CartProvider } from "@/contexts/CartContext";
+import Protect from "@/contexts/Protect.tsx";
 const  LandingPage =lazy(()=>import("./pages/LandingPage"));
 const AboutUs = lazy(()=>import("./pages/AboutUs"));
 const Services = lazy(()=>import("./pages/Services"));
@@ -45,8 +46,20 @@ const App = () => (
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup/farmer" element={<FarmerSignup />} />
             <Route path="/signup/buyer" element={<BuyerSignup />} />
-            <Route path="/dashboard/farmer" element={<FarmerDashboard />} />
-            <Route path="/dashboard/buyer" element={<BuyerDashboard />} />
+            <Route path="/dashboard/farmer" element={
+              <Protect
+                children={
+                  <FarmerDashboard />
+                }
+              />
+              } />
+            <Route path="/dashboard/buyer" element={
+              <Protect
+                children={
+                  <BuyerDashboard />
+                }
+              />
+              } />
             <Route path="/products/search" element={<ProductSearch />} />
             <Route path="/products/:id" element={<ProductListing />} />
             <Route path="/order/confirmation" element={<OrderConfirmation />} />

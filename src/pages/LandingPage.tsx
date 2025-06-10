@@ -7,42 +7,44 @@ import FeatureSection from '@/components/FeatureSection';
 import { Button } from '@/components/ui/button';
 import ProductCard, { Product } from '@/components/ProductCard';
 import { ArrowRight, Truck, Users, ShoppingCart, Calendar } from 'lucide-react';
+import axios from 'axios';
+import { useState , useEffect} from "react";
 
-const featuredProducts: Product[] = [
-  {
-    id: '1',
-    name: 'Fresh Tomatoes',
-    category: 'Vegetables',
-    price: 40,
-    unit: 'kg',
-    farmer: 'Kwamina Ebo',
-    location: 'Wiamoase, Kumasi',
-    imageUrl: 'https://imgs.search.brave.com/ZQIwhe16XdfAcbluguBWxZzql2SVpSyGfi3pMATU9BA/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWdz/LnNlYXJjaC5icmF2/ZS5jb20vaE1SNjBf/cG9nd0hWXzRORmkt/dS1ra2JLQzBtM1ZP/Tm90bEJYX050cDdY/SS9yczpmaXQ6NTAw/OjA6MDowL2c6Y2Uv/YUhSMGNITTZMeTl0/WldScC9ZUzVwYzNS/dlkydHdhRzkwL2J5/NWpiMjB2YVdRdk9E/UTMvTXpNMU1URTJM/M0JvYjNSdi9MM1J2/YldGMGIyVnpMVzl1/L0xYUm9aUzEyYVc1/bExtcHcvWno5elBU/WXhNbmcyTVRJbS9k/ejB3Sm1zOU1qQW1Z/ejFZL2MzQk5NbmxU/ZGxWbWNXcHUvZERk/SVREVnhTM2x1TUhS/NS9VbUkxY1V4elpq/RkhRVkEyL0xUTjRV/WE4zUFE.jpeg',
-    available: 100,
-  },
-  {
-    id: '2',
-    name: 'Organic Rice',
-    category: 'Grains',
-    price: 60,
-    unit: 'kg',
-    farmer: 'Agyeiwaa Adomako',
-    location: 'Oyibi, Accra',
-    imageUrl: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?q=80&w=1470&auto=format&fit=crop',
-    available: 500,
-  },
-  {
-    id: '3',
-    name: 'Fresh Apples',
-    category: 'Fruits',
-    price: 120,
-    unit: 'kg',
-    farmer: 'Julius Owusu',
-    location: 'Doboro, Accra',
-    imageUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=1374&auto=format&fit=crop',
-    available: 80,
-  }
-];
+// const featuredProducts: Product[] = [
+//   {
+//     id: '1',
+//     name: 'Fresh Tomatoes',
+//     category: 'Vegetables',
+//     price: 40,
+//     unit: 'kg',
+//     farmer: 'Kwamina Ebo',
+//     location: 'Wiamoase, Kumasi',
+//     imageUrl: 'https://imgs.search.brave.com/ZQIwhe16XdfAcbluguBWxZzql2SVpSyGfi3pMATU9BA/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWdz/LnNlYXJjaC5icmF2/ZS5jb20vaE1SNjBf/cG9nd0hWXzRORmkt/dS1ra2JLQzBtM1ZP/Tm90bEJYX050cDdY/SS9yczpmaXQ6NTAw/OjA6MDowL2c6Y2Uv/YUhSMGNITTZMeTl0/WldScC9ZUzVwYzNS/dlkydHdhRzkwL2J5/NWpiMjB2YVdRdk9E/UTMvTXpNMU1URTJM/M0JvYjNSdi9MM1J2/YldGMGIyVnpMVzl1/L0xYUm9aUzEyYVc1/bExtcHcvWno5elBU/WXhNbmcyTVRJbS9k/ejB3Sm1zOU1qQW1Z/ejFZL2MzQk5NbmxU/ZGxWbWNXcHUvZERk/SVREVnhTM2x1TUhS/NS9VbUkxY1V4elpq/RkhRVkEyL0xUTjRV/WE4zUFE.jpeg',
+//     available: 100,
+//   },
+//   {
+//     id: '2',
+//     name: 'Organic Rice',
+//     category: 'Grains',
+//     price: 60,
+//     unit: 'kg',
+//     farmer: 'Agyeiwaa Adomako',
+//     location: 'Oyibi, Accra',
+//     imageUrl: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?q=80&w=1470&auto=format&fit=crop',
+//     available: 500,
+//   },
+//   {
+//     id: '3',
+//     name: 'Fresh Apples',
+//     category: 'Fruits',
+//     price: 120,
+//     unit: 'kg',
+//     farmer: 'Julius Owusu',
+//     location: 'Doboro, Accra',
+//     imageUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=1374&auto=format&fit=crop',
+//     available: 80,
+//   }
+// ];
 
 const features = [
   {
@@ -68,6 +70,24 @@ const features = [
 ];
 
 const LandingPage = () => {
+  const [ products , setProducts ] = useState([])
+
+  const fetchProductes = async()=>{
+    const  URI = import.meta.env.VITE_BACKEND_URI;
+    if(!URI) return;
+    try{
+      const response = await axios.get(`${URI}/get/all/products`)
+      console.log(response.data)
+      setProducts(response.data);
+    }catch(e){
+  console.log(e)
+    }
+  }
+
+
+  useEffect(() => {
+    fetchProductes();
+  }, []);
   return (
     <ScrollAnimate>
     <div className="min-h-screen flex flex-col">
@@ -103,7 +123,7 @@ const LandingPage = () => {
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-              {featuredProducts.map((product) => (
+              {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
