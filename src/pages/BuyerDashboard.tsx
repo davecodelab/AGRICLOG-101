@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import ProductCard, { Product } from '@/components/ProductCard';
 import { ScrollAnimate } from "../components/ScrollAnimate";
-
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -60,6 +60,7 @@ const BuyerDashboard = () => {
   const [cartProduct , setCartProduct] = useState([]);
   const [ cartNumber  , setCartNumber ] = useState();
   const [orders , setOrders] = useState([]);
+  const [orderlen , setOrderlen] = useState();
   const result = 0;
 
   const fetchProducte = async()=>{
@@ -82,11 +83,32 @@ const BuyerDashboard = () => {
         withCredentials:true
       })
       setOrders(response.data.order);
-      console.log(response.data)
+      setOrderlen(response.data.order.length);
     }catch(e){
       console.log(e)
     }
   }
+
+
+  const handleLogout = async ()=>{
+    const  URI = import.meta.env.VITE_BACKEND_URI;
+    if(!URI) return;
+    try{
+      const response = await axios.delete(`${URI}/logout` , {
+        withCredentials:true
+      })
+    console.log(response.data)
+    }catch(e){
+      console.log(e)
+    }
+
+  }
+  const format = (rawDate)=>{
+    const formatted = dayjs(rawDate).format('MMMM D, YYYY h:mm A');
+    return formatted;
+  }
+
+
 
   const fetchcartProducte = async()=>{
     const  URI = import.meta.env.VITE_BACKEND_URI;
@@ -95,7 +117,6 @@ const BuyerDashboard = () => {
       const response = await axios.get(`${URI}/fetch/cart/buyer`,{
         withCredentials: true
       })
-      console.log(response.data)
       setCartProduct(response.data.cart)
       setCartNumber(response.data?.cart?.length)
     }catch(e){
@@ -108,8 +129,8 @@ const BuyerDashboard = () => {
     fetchOrders()
   }, []);
 
-  const totalCost = cartProduct.reduce((acc, cart) => {
-    return acc + (cart.quantity * cart.product?.price || 0);
+  const totalCost = cartProduct?.reduce((acc, cart) => {
+    return acc + (cart?.quantity * cart.product?.price || 0);
   }, 0);
 
 
@@ -168,7 +189,7 @@ const BuyerDashboard = () => {
           
           <div className="mt-auto pt-4">
             <Link to="/">
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-red-600 hover:bg-red-50">
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-red-600 hover:bg-red-50" onClick={handleLogout}>
                 <LogOut className="h-5 w-5 mr-2" />
                 Logout
               </Button>
@@ -240,7 +261,7 @@ const BuyerDashboard = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm text-gray-500 mb-1">Active Orders</p>
-                        <h3 className="text-2xl font-bold">2</h3>
+                        <h3 className="text-2xl font-bold">{orderlen}</h3>
                         <p className="text-xs text-blue-600 flex items-center mt-1">
                           1 out for delivery
                         </p>
@@ -309,11 +330,11 @@ const BuyerDashboard = () => {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {orders.map((order) => (
+                      {orders?.map((order) => (
                         <tr key={order.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">ORD-{order.id.slice(0,8)}</div>
-                            <div className="text-xs text-gray-500">{order.date}</div>
+                            <div className="text-xs text-gray-500">{format(order.created_at)}</div>
                           </td>
                           <td className="px-6 py-4">
                             <div className="text-sm text-gray-500">{order.product?.name}</div>
@@ -355,7 +376,7 @@ const BuyerDashboard = () => {
                 </div>
                 
                 <div className="grid md:grid-cols-3 gap-6">
-                  {product.map((product) => (
+                  {product?.map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
                 </div>
@@ -373,10 +394,51 @@ const BuyerDashboard = () => {
             </TabsContent>
             
             <TabsContent value="orders">
-              <div className="text-center py-16">
-                <h3 className="text-xl font-medium text-gray-500">Order History Coming Soon</h3>
-                <p className="text-gray-400 mt-2">View all your past and current orders with detailed tracking</p>
-              </div>
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                <tr>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Items</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Farmer</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                {orders?.map((order) => (
+                    <tr key={order.id}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">ORD-{order.id.slice(0,8)}</div>
+                        <div className="text-xs text-gray-500">{format(order.date)}</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-500">{order.product?.name}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{order.user?.name}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">&#8373;{(order.quantity * order?.product?.price).toFixed(2)}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                order.Status === 'Delivered'
+                                    ? 'bg-green-100 text-green-800'
+                                    : order.Status === 'En Route'
+                                        ? 'bg-blue-100 text-blue-800'
+                                        : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                              {order.Status}
+                            </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <Button variant="ghost" size="sm" className="text-farm-green hover:text-farm-lightGreen">Track</Button>
+                      </td>
+                    </tr>
+                ))}
+                </tbody>
+              </table>
             </TabsContent>
             
             <TabsContent value="cart">
@@ -400,7 +462,7 @@ const BuyerDashboard = () => {
                 <tbody className="bg-white divide-y divide-gray-200">
 
 
-                {cartProduct.map((cart) => (
+                {cartProduct?.map((cart) => (
                     <tr key={cart.id}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <img src={`data:image/png;base64,${cart.product?.image}`} className={"object-contain rounded-sm shadow-md shadow-gray-200 w-20 h-full"} alt={"product-image"}/>
@@ -416,7 +478,7 @@ const BuyerDashboard = () => {
                         <div className="text-sm text-gray-900">{cart.product?.category}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{cart.product?.price}</div>
+                        <div className="text-sm text-gray-900"> &#8373; {cart.product?.price}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">{cart?.quantity}/{cart?.product?.unit}</div>

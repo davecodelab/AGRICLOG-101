@@ -11,7 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollAnimate } from "../components/ScrollAnimate";
 import { ArrowRight, CreditCard, MapPin, Truck } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 const OrderConfirmation = () => {
@@ -36,22 +36,19 @@ const OrderConfirmation = () => {
           description: description, // make sure 'description' is defined in state
           agree: agree,
         };
-
-        console.log(formData);
-
         const response = await axios.post(`${URI}/create/order`, formData, {
           withCredentials: true,
         });
-        console.log(response.data)
+        if(response.data){
+           window.location.href = '/order/tracking';
+        }
       }
-
-
     }catch(e){
       console.log(e)
     }
 
     // In a real app, this would submit the order to an API
-    // window.location.href = '/order/tracking';
+    //
   };
 
   const handleFetch = async()=>{
@@ -62,7 +59,6 @@ const OrderConfirmation = () => {
         withCredentials: true
       })
       setCartProduct(response.data.cart)
-      console.log(response.data)
     }catch(e){
       console.log(e)
     }
